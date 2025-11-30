@@ -445,6 +445,54 @@
       display: none;
     }
 
+    /* Session Intro Card */
+    #sessionIntroCard {
+      border-left: 4px solid #a855f7;
+      background: rgba(76, 29, 149, 0.12);
+    }
+
+    #sessionIntroTitle {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #sessionIntroText {
+      color: var(--text-secondary);
+    }
+
+    /* Session Cards in Course Map */
+    .session-card {
+      padding: 1.25rem 1.5rem;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .session-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(129, 140, 248, 0.55);
+      border-color: #818cf8;
+    }
+
+    .session-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .session-main {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .session-link {
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+      color: #a5b4fc;
+    }
+
     button {
       padding: 0.875rem 1.75rem;
       border: none;
@@ -1399,60 +1447,74 @@
         <p>Navigate the entire course structure. Click any session to jump directly to the relevant module.</p>
       </div>
       
-      <div class="course-map-card">
+      <div class="session-card" onclick="openSession('session0')">
         <h3>Session 0 – Strategy Fundamentals & Process</h3>
-        <p><strong>Main frameworks:</strong> Strategic management process, formulation vs implementation, strategy vs operational effectiveness, competitive advantage</p>
-        <div style="margin-top: 1rem;">
-          <button onclick="startModule('fundamentals')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Strategy Fundamentals → All Levels</button>
-        </div>
+        <p class="session-main">
+          Strategic management process, formulation vs implementation, strategy vs operational effectiveness, competitive advantage.
+        </p>
+        <p class="session-link">
+          ▶ Start with <strong>Strategy Fundamentals – Level 1</strong>
+        </p>
       </div>
 
-      <div class="course-map-card">
+      <div class="session-card" onclick="openSession('session1')">
         <h3>Session 1 – What is Strategy? Value Creation & Generic Strategies</h3>
-        <p><strong>Main frameworks:</strong> Value Stick (SOC → Cost → Price → WTP), generic strategies (cost leadership, differentiation, focus), hybrid strategies, stuck in the middle</p>
-        <div style="margin-top: 1rem;">
-          <button onclick="startModule('firm')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Firm Strategy → Level 1</button>
-        </div>
+        <p class="session-main">
+          Value Stick (SOC → Cost → Price → WTP), generic strategies (cost leadership, differentiation, focus), hybrid strategies, stuck in the middle.
+        </p>
+        <p class="session-link">
+          ▶ Start with <strong>Firm Strategy – Level 1</strong>
+        </p>
       </div>
 
-      <div class="course-map-card">
+      <div class="session-card" onclick="openSession('session2')">
         <h3>Session 2 – Industry Analysis & Competitive Dynamics</h3>
-        <p><strong>Main frameworks:</strong> Porter's 5 Forces, complements, profit pool, strategic groups, mobility barriers, Key Success Factors (KSFs)</p>
-        <div style="margin-top: 1rem;">
-          <button onclick="startModule('industry')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Industry Battles → Levels 1, 2, 4</button>
-        </div>
+        <p class="session-main">
+          Porter's 5 Forces, complements, profit pool, strategic groups, mobility barriers, Key Success Factors (KSFs).
+        </p>
+        <p class="session-link">
+          ▶ Start with <strong>Industry Battles – Level 1</strong>
+        </p>
       </div>
 
-      <div class="course-map-card">
+      <div class="session-card" onclick="openSession('session3')">
         <h3>Session 3 – Resources & Capabilities</h3>
-        <p><strong>Main frameworks:</strong> Resource-based View (RBV), VRIO framework, core competences, dynamic capabilities (sensing, seizing, reconfiguring), Buy vs Build, Value Chain Analysis</p>
-        <div style="margin-top: 1rem;">
-          <button onclick="startModule('firm')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Firm Strategy → Levels 2, 3, 4, 5</button>
-        </div>
+        <p class="session-main">
+          Resource-based View (RBV), VRIO framework, core competences, dynamic capabilities (sensing, seizing, reconfiguring), Buy vs Build, Value Chain Analysis.
+        </p>
+        <p class="session-link">
+          ▶ Start with <strong>Firm Strategy – Level 2</strong>
+        </p>
       </div>
 
-      <div class="course-map-card">
+      <div class="session-card" onclick="openSession('session4')">
         <h3>Session 4 – Blue Ocean Strategy & Positioning</h3>
-        <p><strong>Main frameworks:</strong> Blue Ocean Strategy, value curve, ERRC grid (Eliminate, Reduce, Raise, Create), Three Tiers of Non-Customers, simultaneous differentiation and low cost</p>
-        <div style="margin-top: 1rem;">
-          <button onclick="startModule('industry')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Industry Battles → Level 3 (Yellow Tail)</button>
-        </div>
+        <p class="session-main">
+          Blue Ocean Strategy, value curve, ERRC grid (Eliminate, Reduce, Raise, Create), Three Tiers of Non-Customers, simultaneous differentiation and low cost.
+        </p>
+        <p class="session-link">
+          ▶ Start with <strong>Industry Battles – Level 3</strong>
+        </p>
       </div>
 
-      <div class="course-map-card">
+      <div class="session-card" onclick="openSession('session5')">
         <h3>Session 5 – Platforms & Network Effects</h3>
-        <p><strong>Main frameworks:</strong> Platform vs Pipeline business models, direct vs cross-side network effects, tipping points, winner-take-all dynamics, three modes of platform competition</p>
-        <div style="margin-top: 1rem;">
-          <button onclick="startModule('platforms')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Platforms & Ecosystems → All Levels</button>
-        </div>
+        <p class="session-main">
+          Platform vs Pipeline business models, direct vs cross-side network effects, tipping points, winner-take-all dynamics, three modes of platform competition.
+        </p>
+        <p class="session-link">
+          ▶ Start with <strong>Platforms & Ecosystems – Level 1</strong>
+        </p>
       </div>
 
-      <div class="course-map-card">
+      <div class="session-card" onclick="openSession('session6')">
         <h3>Session 6 – Macro Environment & Uncertainty</h3>
-        <p><strong>Main frameworks:</strong> PESTEL analysis (identifying key drivers of change), stakeholder analysis (coalitions, pressure), scenario planning (dealing with high uncertainty, multiple plausible futures)</p>
-        <div style="margin-top: 1rem;">
-          <button onclick="startModule('macro')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Macro & Trends → All Levels</button>
-        </div>
+        <p class="session-main">
+          PESTEL analysis (identifying key drivers of change), stakeholder analysis (coalitions, pressure), scenario planning (dealing with high uncertainty, multiple plausible futures).
+        </p>
+        <p class="session-link">
+          ▶ Start with <strong>Macro & Trends – Level 1</strong>
+        </p>
       </div>
     </section>
 
@@ -1675,7 +1737,7 @@
               <div class="flip-hint">Click to see definition</div>
             </div>
             <div class="flip-card-back">
-              <p><strong>VRIO:</strong> Framework: Is a resource Valuable, Rare, costly to Imitate, and is the firm Organized to capture value?</p>
+              <p><strong>VRIO:</strong> Framework testing if a resource supports sustained competitive advantage. <strong>V</strong> = Valuable (exploits opportunities, neutralizes threats). <strong>R</strong> = Rare (possessed by few competitors). <strong>I</strong> = Inimitable (costly to imitate due to path dependence, causal ambiguity, or social complexity). <strong>O</strong> = Organized (firm has structure, systems, processes, and culture to capture value). Only resources passing ALL four tests yield sustained advantage. V+R but not I = temporary advantage. V only = competitive parity.</p>
             </div>
           </div>
         </div>
@@ -1724,6 +1786,12 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Session Intro Card -->
+      <div class="card hidden" id="sessionIntroCard">
+        <h3 id="sessionIntroTitle">Session title here</h3>
+        <p id="sessionIntroText">Short explanation of what this session covers.</p>
       </div>
 
       <!-- Framework Recap -->
@@ -2824,6 +2892,52 @@
       }
     };
 
+    // ===== SESSION CONFIGURATION =====
+    const sessions = {
+      session0: {
+        title: "Session 0 – Strategy Fundamentals & Process",
+        intro: "Strategic management process: environment (T/O) + capabilities (S/W) → strategy formulation; and implementation levers (structure, systems, people) guided by strategic leadership. Clarifies that strategy ≠ operational effectiveness.",
+        targetModule: "fundamentals",
+        targetLevelIndex: 0
+      },
+      session1: {
+        title: "Session 1 – What is Strategy? Value Creation & Generic Strategies",
+        intro: "Value Stick (SOC → Cost → Price → WTP) and competitive advantage as value creation relative to rivals. Generic strategies: cost leadership, differentiation, focus; risk of being 'stuck in the middle'.",
+        targetModule: "firm",
+        targetLevelIndex: 0
+      },
+      session2: {
+        title: "Session 2 – Industry Analysis & Competitive Dynamics",
+        intro: "Porter's 5 Forces, complements, profit pools, strategic groups, mobility barriers, and Key Success Factors (KSFs) derived from demand and supply.",
+        targetModule: "industry",
+        targetLevelIndex: 0
+      },
+      session3: {
+        title: "Session 3 – Resources & Capabilities",
+        intro: "Resource-based View (RBV), VRIO (Valuable, Rare, Inimitable, Organized) for sustained advantage, core competences, dynamic capabilities (sensing, seizing, reconfiguring), Buy vs Build, and value chain analysis.",
+        targetModule: "firm",
+        targetLevelIndex: 1
+      },
+      session4: {
+        title: "Session 4 – Blue Ocean Strategy & Positioning",
+        intro: "Blue Ocean Strategy: value curve, ERRC grid (Eliminate, Reduce, Raise, Create), three tiers of non-customers, and simultaneous differentiation + low cost (Yellow Tail case).",
+        targetModule: "industry",
+        targetLevelIndex: 2
+      },
+      session5: {
+        title: "Session 5 – Platforms & Network Effects",
+        intro: "Platform vs pipeline business models, direct and cross-side network effects, tipping points, winner-take-all dynamics, and three modes of competition (platform vs platform, platform vs complement, complement vs complement).",
+        targetModule: "platforms",
+        targetLevelIndex: 0
+      },
+      session6: {
+        title: "Session 6 – Macro Environment & Uncertainty",
+        intro: "PESTEL to identify key drivers of change, stakeholder analysis (coalitions such as NGOs + media + regulators), and scenario planning for high uncertainty (multiple plausible futures).",
+        targetModule: "macro",
+        targetLevelIndex: 0
+      }
+    };
+
     // ===== PERSISTENCE =====
     function loadState() {
       const saved = localStorage.getItem('strategyQuestState');
@@ -3279,6 +3393,10 @@
       document.getElementById('examModeToggle').checked = false;
       document.getElementById('timerDisplay').style.display = 'none';
       
+      // Hide session intro for boss battle
+      const introCard = document.getElementById('sessionIntroCard');
+      if (introCard) introCard.classList.add('hidden');
+      
       loadCurrentState();
       showSection('moduleView');
     }
@@ -3289,6 +3407,10 @@
         console.error(`Module "${key}" not found`);
         return;
       }
+      // Hide session intro when starting module normally
+      const introCard = document.getElementById('sessionIntroCard');
+      if (introCard) introCard.classList.add('hidden');
+      
       currentModule = modules[key];
       currentLevelIndex = 0;
       currentQuestionIndex = 0;
@@ -3300,6 +3422,48 @@
       if (timerDisplay) timerDisplay.style.display = 'none';
       stopTimer();
       loadCurrentState();
+      showSection('moduleView');
+    }
+
+    function openSession(sessionKey) {
+      const session = sessions[sessionKey];
+      if (!session) {
+        console.error(`Session "${sessionKey}" not found`);
+        return;
+      }
+
+      // Ensure practice mode (hide exam mode)
+      examMode = false;
+      examAnswers = [];
+      const examToggle = document.getElementById('examModeToggle');
+      const timerDisplay = document.getElementById('timerDisplay');
+      if (examToggle) examToggle.checked = false;
+      if (timerDisplay) timerDisplay.style.display = 'none';
+      stopTimer();
+
+      // Select the right module and level
+      if (!modules[session.targetModule]) {
+        console.error(`Module "${session.targetModule}" not found for session "${sessionKey}"`);
+        return;
+      }
+      currentModule = modules[session.targetModule];
+      currentLevelIndex = session.targetLevelIndex || 0;
+      currentQuestionIndex = 0;
+
+      // Update the session intro card
+      const introCard = document.getElementById('sessionIntroCard');
+      const introTitle = document.getElementById('sessionIntroTitle');
+      const introText = document.getElementById('sessionIntroText');
+      if (introCard && introTitle && introText) {
+        introTitle.textContent = session.title;
+        introText.textContent = session.intro;
+        introCard.classList.remove('hidden');
+      }
+
+      // Load the first question/lesson of that level
+      loadCurrentState();
+
+      // Show the module/quiz section
       showSection('moduleView');
     }
 
