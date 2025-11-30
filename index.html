@@ -1,0 +1,3306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strategy Quest – Competitive Strategy Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===== DESIGN SYSTEM ===== */
+    :root {
+      /* Colors - Professional but Playful */
+      --bg-dark: #020617;
+      --bg-card: #ffffff;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --success-dark: #065f46;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --danger-dark: #991b1b;
+      
+      /* Typography */
+      --text-primary: #111827;
+      --text-secondary: #1f2937;
+      --text-muted: #6b7280;
+      
+      /* Spacing & Shadows */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+      
+      /* Transitions */
+      --transition: all 0.2s ease;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .header-left > div:first-child {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .score {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .score-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-card);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .score-item:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-1px);
+    }
+
+    .score-item strong {
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    nav {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      padding: 0.625rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+    }
+
+    nav button:hover {
+      color: var(--accent);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    nav button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    nav button.active {
+      color: var(--accent);
+      background: rgba(99, 102, 241, 0.1);
+      border-bottom-color: var(--accent);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin: 0 0 1rem 0;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+      margin: 0 0 1.5rem 0;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+      margin: 0 0 1rem 0;
+    }
+
+    h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0 0 0.75rem 0;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .tile {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      color: var(--text-secondary);
+    }
+
+    .tile:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .tile:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .tile:active {
+      transform: translateY(-2px);
+    }
+
+    .tile h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: var(--transition);
+    }
+
+    .badge:hover {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    .badge.secondary {
+      background: rgba(251, 191, 36, 0.1);
+      color: #d97706;
+      border-color: rgba(251, 191, 36, 0.2);
+    }
+
+    .badge.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      color: var(--text-secondary);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    .quiz-card {
+      border-left: 4px solid var(--accent);
+    }
+
+    .question-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .question-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .question-number {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      background: var(--bg-card);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #111827;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin: 1.5rem 0;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .options button:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateX(4px);
+    }
+
+    .options button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .options button.correct {
+      background: var(--success-light);
+      border-color: var(--success);
+      color: var(--success-dark);
+    }
+
+    .options button.wrong {
+      background: var(--danger-light);
+      border-color: var(--danger);
+      color: var(--danger-dark);
+    }
+
+    .feedback {
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 15px;
+      font-weight: 600;
+      animation: feedbackSlide 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes feedbackSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .feedback.correct {
+      background: var(--success-light);
+      color: var(--success-dark);
+      border: 1px solid var(--success);
+    }
+
+    .feedback.incorrect {
+      background: var(--danger-light);
+      color: var(--danger-dark);
+      border: 1px solid var(--danger);
+    }
+
+    .progress {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      padding: 0.875rem 1.25rem;
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      font-weight: 500;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      padding: 0.875rem 1.75rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--accent-hover);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-1px);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    button:disabled {
+      background: #e5e7eb;
+      color: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .xp-gain {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: var(--success);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      font-weight: 600;
+      font-size: 0.95rem;
+      z-index: 1000;
+      animation: xpSlideIn 0.3s ease-out, xpSlideOut 0.3s ease-in 2.7s forwards;
+    }
+
+    @keyframes xpSlideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes xpSlideOut {
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+    }
+
+    .badge-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .badge-item {
+      background: var(--accent);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .badge-item:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .badge-item.empty {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .module-completion {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .module-completion h4 {
+      margin-bottom: 1rem;
+    }
+
+    .completion-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 0.75rem;
+    }
+
+    .completion-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.5s ease;
+      border-radius: 4px;
+    }
+
+    p, li {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    small {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #f59e0b;
+      animation: confettiFall linear forwards;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .mini-framework {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      margin-top: 1rem;
+    }
+
+    .mini-framework h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .mini-framework ul {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    .mini-framework li {
+      margin: 0.5rem 0;
+    }
+
+    .answer-template {
+      background: var(--bg-card);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      margin-top: 1rem;
+    }
+
+    .exam-summary {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .rank-display {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    /* Home Page Styles */
+    .home-hero {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 3rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .home-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .home-hero p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .home-section {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .home-section h3 {
+      color: #111827;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .home-section p, .home-section li {
+      color: #1f2937;
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .home-section ul {
+      margin: 1rem 0;
+      padding-left: 0;
+    }
+
+    .home-section li {
+      padding: 0.75rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .home-section li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #818cf8;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .home-section ol {
+      color: #1f2937;
+      line-height: 2;
+      font-size: 1.05rem;
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .home-section ol li {
+      padding: 0.75rem 0;
+      padding-left: 0.5rem;
+      position: relative;
+      list-style: decimal;
+    }
+
+    .home-section ol li::before {
+      display: none;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .feature-card h4 {
+      font-size: 1.125rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    /* Flip Card Styles for Glossary */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      width: 100%;
+      height: 200px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .flip-card-front {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      transition: var(--transition);
+    }
+
+    .flip-card:hover .flip-card-front {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .flip-card-back {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      transform: rotateY(180deg);
+      text-align: left;
+      justify-content: flex-start;
+    }
+
+    .flip-card-front h4 {
+      font-size: 1.125rem;
+      margin: 0;
+    }
+
+    .flip-card-back p {
+      line-height: 1.6;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .flip-hint {
+      position: absolute;
+      bottom: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Flashcard Study Mode Styles */
+    .flashcard-study-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+      min-height: 500px;
+    }
+
+    .flashcard-nav-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: var(--bg-card);
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .flashcard-nav-btn:hover:not(:disabled) {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .flashcard-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .flashcard-study-card-wrapper {
+      flex: 1;
+      max-width: 800px;
+      perspective: 1000px;
+    }
+
+    .flashcard-study-card {
+      width: 100%;
+      height: 400px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .flashcard-study-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard-study-card.flipped .flashcard-study-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-study-front,
+    .flashcard-study-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .flashcard-study-back {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-number {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .flashcard-study-front h3,
+    .flashcard-study-back h3 {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .flashcard-hint {
+      position: absolute;
+      bottom: 2rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .flashcard-actions {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+      justify-content: center;
+      padding: 0 2rem;
+    }
+
+    .flashcard-action-btn {
+      padding: 0.875rem 2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .flashcard-good {
+      background: var(--success);
+      color: white;
+    }
+
+    .flashcard-good:hover {
+      background: var(--success-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .flashcard-bad {
+      background: var(--danger);
+      color: white;
+    }
+
+    .flashcard-bad:hover {
+      background: var(--danger-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 768px) {
+      .flashcard-study-container {
+        flex-direction: column;
+        gap: 1rem;
+        min-height: auto;
+      }
+
+      .flashcard-nav-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+      }
+
+      .flashcard-study-card {
+        height: 350px;
+      }
+
+      .flashcard-study-front,
+      .flashcard-study-back {
+        padding: 2rem 1.5rem;
+      }
+
+      .flashcard-study-front h3,
+      .flashcard-study-back h3 {
+        font-size: 1.25rem;
+      }
+
+      .flashcard-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .flashcard-action-btn {
+        max-width: 100%;
+      }
+    }
+
+    /* Course Map Improvements */
+    .course-map-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .course-map-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-map-card p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      header {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      nav {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      nav button {
+        flex: 0 0 auto;
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+        min-height: 44px; /* Touch target size */
+      }
+
+      .tile-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .tile {
+        min-height: 44px; /* Touch target size */
+      }
+
+      .options button {
+        min-height: 48px; /* Touch target size */
+        padding: 1.25rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      .home-hero {
+        padding: 2rem 1.5rem;
+      }
+
+      .home-hero h1 {
+        font-size: 2rem;
+      }
+
+      .home-hero p {
+        font-size: 1rem;
+      }
+
+      .xp-gain {
+        right: 10px;
+        top: 80px;
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+      }
+
+      .glossary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <div><strong>Strategy Quest</strong> – Learn Competitive Strategy by Playing</div>
+      <div class="score">
+        <div class="score-item">
+          <span>⭐ XP:</span>
+          <strong id="xp">0</strong>
+        </div>
+        <div class="score-item">
+          <span>🏆 Badges:</span>
+          <strong id="badges">0</strong>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <button onclick="showSection('home')" class="active">Home</button>
+      <button onclick="showSection('courseMap')">Course Map</button>
+      <button onclick="showSection('modules')">Modules</button>
+      <button onclick="showSection('glossary')">Glossary</button>
+      <button onclick="showSection('flashcards')">Flashcards</button>
+      <button onclick="showSection('scoreboard')">Scoreboard</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- HOME -->
+    <section id="home" class="active">
+      <div class="home-hero">
+        <h1>Welcome to the Course Competitive Strategy Wrap Up</h1>
+        <p>
+          Your complete revision hub for mastering Competitive Strategy. Learn frameworks, practice with real cases, 
+          and test your knowledge through interactive quizzes. Earn XP, unlock badges, and become a Strategy Wizard!
+        </p>
+        <div class="cta-buttons">
+          <button onclick="showSection('modules')" style="font-size: 1.1rem; padding: 1rem 2.5rem;">🚀 Start Learning</button>
+          <button onclick="showSection('courseMap')" style="font-size: 1.1rem; padding: 1rem 2.5rem; background: var(--accent);">📚 View Course Map</button>
+        </div>
+      </div>
+
+      <div class="home-section">
+        <h3>🎯 How It Works</h3>
+        <p>
+          This platform transforms Competitive Strategy concepts into engaging learning missions. Each module follows a structured approach:
+        </p>
+        <ul>
+          <li><strong>Mini Lesson:</strong> Quick explanation of the framework or concept</li>
+          <li><strong>Real Company Case:</strong> See how frameworks apply to actual businesses (Tesla, Netflix, Yellow Tail, Glovo, etc.)</li>
+          <li><strong>Interactive Quiz:</strong> Test your understanding with immediate feedback</li>
+          <li><strong>Framework Recap:</strong> Quick reference checklist for each framework</li>
+        </ul>
+      </div>
+
+      <div class="home-section">
+        <h3>📖 Available Sections</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>📚 Course Map</h4>
+            <p>Navigate the complete course structure. See all sessions, frameworks, and jump directly to relevant modules.</p>
+          </div>
+          <div class="feature-card">
+            <h4>🎮 Modules</h4>
+            <p>Four main modules: Macro & Trends, Industry Battles, Firm Strategy, and Platforms & Ecosystems. Each with 3 levels.</p>
+          </div>
+          <div class="feature-card">
+            <h4>📖 Glossary</h4>
+            <p>Quick reference for key strategy vocabulary. Find definitions for PESTEL, VRIO, network effects, and more.</p>
+          </div>
+          <div class="feature-card">
+            <h4>🏆 Scoreboard</h4>
+            <p>Track your progress, view unlocked badges, and see your XP across all modules.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-section">
+        <h3>⭐ XP System & Rewards</h3>
+        <p>Earn Experience Points (XP) as you learn and progress through the course:</p>
+        <ul>
+          <li><strong>+10 XP</strong> for each correct answer in practice mode</li>
+          <li><strong>+20 XP</strong> for completing a level</li>
+          <li><strong>+50 XP</strong> for completing an entire module</li>
+          <li><strong>Variable XP</strong> in Exam Mode based on your final score</li>
+        </ul>
+        <p style="margin-top: 1rem;">
+          <strong>Badges:</strong> Unlock special badges when you complete each module:
+        </p>
+        <ul>
+          <li>🏅 <strong>Trend Watcher</strong> - Complete Macro & Trends</li>
+          <li>🏅 <strong>Industry Analyst</strong> - Complete Industry Battles</li>
+          <li>🏅 <strong>Strategy Architect</strong> - Complete Firm Strategy</li>
+          <li>🏅 <strong>Platform Guru</strong> - Complete Platforms & Ecosystems</li>
+        </ul>
+      </div>
+
+      <div class="home-section">
+        <h3>🎓 Learning Modes</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>💡 Practice Mode</h4>
+            <p>Learn at your own pace with instant feedback after each question. Perfect for understanding concepts and frameworks.</p>
+          </div>
+          <div class="feature-card">
+            <h4>🎯 Exam Mode</h4>
+            <p>Simulate exam conditions with a 90-second timer per question. Feedback only at the end. Get a rank based on your score!</p>
+          </div>
+          <div class="feature-card">
+            <h4>🔥 Boss Battle</h4>
+            <p>Final challenge! Answer 10 random questions from all modules. Test your overall knowledge and earn the Strategy Wizard rank.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-section">
+        <h3>🚀 Quick Start Guide</h3>
+        <ol>
+          <li><strong>New to the course?</strong> Start with the <strong>Course Map</strong> to see the full syllabus and understand the structure.</li>
+          <li><strong>Want to learn a specific topic?</strong> Go to <strong>Modules</strong> and choose Macro, Industry, Firm Strategy, or Platforms.</li>
+          <li><strong>Need a quick definition?</strong> Check the <strong>Glossary</strong> for key terms and concepts.</li>
+          <li><strong>Ready for a challenge?</strong> Try <strong>Exam Mode</strong> or the <strong>Boss Battle</strong> to test your knowledge!</li>
+          <li><strong>Track your progress:</strong> Visit the <strong>Scoreboard</strong> to see your XP, badges, and completion stats.</li>
+        </ol>
+      </div>
+
+      <div class="home-section" style="text-align: center;">
+        <h3>Ready to Start?</h3>
+        <p style="font-size: 1.125rem; margin-bottom: 2rem; color: var(--text-secondary);">
+          Choose your path and begin your strategy learning journey!
+        </p>
+        <div class="cta-buttons">
+          <button onclick="showSection('modules')" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Explore Modules</button>
+          <button onclick="showSection('courseMap')" style="font-size: 1.1rem; padding: 1rem 2.5rem; background: var(--accent);">View Course Map</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES OVERVIEW -->
+    <section id="modules">
+      <div class="card">
+        <h2>Modules</h2>
+        <p>Choose a module to start your learning journey. Each module has 3 levels with lessons, cases, and quizzes.</p>
+      </div>
+      <div class="tile-grid">
+        <div class="tile" onclick="startModule('macro')">
+          <h3>Macro & Trends</h3>
+          <span class="badge">PESTEL</span>
+          <span class="badge">Scenarios</span>
+          <p>Macroenvironment analysis: PESTEL, key drivers of change, stakeholders & uncertainty.</p>
+          <p><small>3 levels • ~60–100 XP</small></p>
+          <div id="macro-progress" class="module-completion" style="display: none;">
+            <h4>Progress</h4>
+            <div class="completion-bar">
+              <div class="completion-fill" id="macro-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile" onclick="startModule('industry')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startModule('industry');}">
+          <h3>Industry Battles</h3>
+          <span class="badge">5 Forces</span>
+          <p>Airlines, streaming, wine… see how industry structure shapes profitability.</p>
+          <p><small>3 levels • ~60–100 XP</small></p>
+          <div id="industry-progress" class="module-completion" style="display: none;">
+            <h4>Progress</h4>
+            <div class="completion-bar">
+              <div class="completion-fill" id="industry-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile" onclick="startModule('firm')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startModule('firm');}">
+          <h3>Firm Strategy</h3>
+          <span class="badge">Value Stick</span>
+          <span class="badge">VRIO</span>
+          <p>Value stick, generic strategies, resources & capabilities, dynamic capabilities.</p>
+          <p><small>3 levels • ~60–100 XP</small></p>
+          <div id="firm-progress" class="module-completion" style="display: none;">
+            <h4>Progress</h4>
+            <div class="completion-bar">
+              <div class="completion-fill" id="firm-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile" onclick="startModule('platforms')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startModule('platforms');}">
+          <h3>Platforms & Ecosystems</h3>
+          <span class="badge secondary">Network Effects</span>
+          <p>Platform business models, direct interactions, network effects and winner-take-all.</p>
+          <p><small>3 levels • ~60–100 XP</small></p>
+          <div id="platforms-progress" class="module-completion" style="display: none;">
+            <h4>Progress</h4>
+            <div class="completion-bar">
+              <div class="completion-fill" id="platforms-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile" onclick="startBossBattle()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startBossBattle();}" style="border-color: var(--danger);">
+          <h3>🔥 Final Boss Battle</h3>
+          <span class="badge" style="background: rgba(239, 68, 68, 0.1); color: var(--danger); border-color: rgba(239, 68, 68, 0.3);">Mixed Quiz</span>
+          <p>Test your knowledge across all modules with 10 random questions!</p>
+          <p><small>All topics • Final challenge</small></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSE MAP -->
+    <section id="courseMap">
+      <div class="course-map-card">
+        <h2>📚 Course Map – Complete Syllabus</h2>
+        <p>Navigate the entire course structure. Click any session to jump directly to the relevant module.</p>
+      </div>
+      
+      <div class="course-map-card">
+        <h3>Session 1 – What is Strategy?</h3>
+        <p><strong>Main frameworks:</strong> Fit, competitive advantage, activity systems, value stick, generic strategies</p>
+        <div style="margin-top: 1rem;">
+          <button onclick="startModule('firm')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Firm Strategy → Level 1</button>
+        </div>
+      </div>
+
+      <div class="course-map-card">
+        <h3>Session 2 – Industry Analysis</h3>
+        <p><strong>Main frameworks:</strong> Porter's 5 Forces, complements, profit pool, industry structure</p>
+        <div style="margin-top: 1rem;">
+          <button onclick="startModule('industry')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Industry Battles → All Levels</button>
+        </div>
+      </div>
+
+      <div class="course-map-card">
+        <h3>Session 3 – Resources & Capabilities</h3>
+        <p><strong>Main frameworks:</strong> Resource-based View (RBV), VRIO, dynamic capabilities (sensing, seizing, reconfiguring)</p>
+        <div style="margin-top: 1rem;">
+          <button onclick="startModule('firm')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Firm Strategy → Levels 2 & 3</button>
+        </div>
+      </div>
+
+      <div class="course-map-card">
+        <h3>Session 4 – Blue Ocean & Positioning</h3>
+        <p><strong>Main frameworks:</strong> Blue Ocean Strategy, value curve, ERRC grid (Eliminate, Reduce, Raise, Create)</p>
+        <div style="margin-top: 1rem;">
+          <button onclick="startModule('industry')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Industry Battles → Level 3 (Yellow Tail)</button>
+        </div>
+      </div>
+
+      <div class="course-map-card">
+        <h3>Session 5 – Platforms & Network Effects</h3>
+        <p><strong>Main frameworks:</strong> Platform business models, direct vs cross-side network effects, tipping points, winner-take-all dynamics</p>
+        <div style="margin-top: 1rem;">
+          <button onclick="startModule('platforms')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Platforms & Ecosystems → All Levels</button>
+        </div>
+      </div>
+
+      <div class="course-map-card">
+        <h3>Session 6 – Macro Environment</h3>
+        <p><strong>Main frameworks:</strong> PESTEL analysis, key drivers of change, stakeholder analysis, scenario planning</p>
+        <div style="margin-top: 1rem;">
+          <button onclick="startModule('macro')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Macro & Trends → All Levels</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="card">
+        <h2>📖 Glossary – Strategy Vocabulary</h2>
+        <p>Click on any card to flip it and see the definition. Click again to flip back.</p>
+      </div>
+
+      <div class="glossary-grid">
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Activity System</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Activity System:</strong> The set of interconnected activities that create value. Activities must fit together coherently.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Blue Ocean Strategy</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Blue Ocean Strategy:</strong> Creating new market space by changing the value curve (ERRC: Eliminate, Reduce, Raise, Create).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Competitive Advantage</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Competitive Advantage:</strong> When a firm earns higher returns than competitors in the same industry.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Cross-side Network Effects</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Cross-side Network Effects:</strong> When more users on one side (e.g., restaurants) increase value for the other side (e.g., customers).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Demand-side Network Effects</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Demand-side Network Effects:</strong> When a product's value increases with the number of users (e.g., messaging apps).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Dynamic Capabilities</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Dynamic Capabilities:</strong> Firm's ability to sense opportunities/threats, seize them, and reconfigure resources over time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Endogenous Change</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Endogenous Change:</strong> Change driven by competitive moves within the industry (vs exogenous = from outside).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Exogenous Change</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Exogenous Change:</strong> Change from the macroenvironment (regulation, technology shifts) affecting all firms.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>5 Forces</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>5 Forces:</strong> Porter's framework: rivalry, threat of entry, substitutes, buyer power, supplier power.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Key Drivers of Change</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Key Drivers of Change:</strong> Major trends identified in PESTEL that will shape industries and markets.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Macroenvironment</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Macroenvironment:</strong> Political, Economic, Social, Technological, Environmental, Legal forces (PESTEL).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Platform Business Model</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Platform Business Model:</strong> Enables direct interactions between different types of affiliated customers (vs pipeline = owning assets).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>PESTEL</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>PESTEL:</strong> Framework scanning Political, Economic, Sociocultural, Technological, Environmental, Legal forces.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Resource-based View (RBV)</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Resource-based View (RBV):</strong> Treats firms as bundles of resources. VRIO determines if resources support sustained advantage.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Scenario Planning</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Scenario Planning:</strong> Building a few plausible futures when uncertainty is high (vs single forecast).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Tipping Point</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Tipping Point:</strong> User base level where network effects and expectations push one platform ahead very quickly.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Value Stick</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Value Stick:</strong> Represents value creation: from Supplier Opportunity Cost (SOC) → Cost → Price → Willingness to Pay (WTP).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>VRIO</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>VRIO:</strong> Framework: Is a resource Valuable, Rare, costly to Imitate, and is the firm Organized to capture value?</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Winner-take-all (WTA)</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Winner-take-all (WTA):</strong> Market dynamic where one platform dominates after passing the tipping point.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h4>Willingness to Pay (WTP)</h4>
+              <div class="flip-hint">Click to see definition</div>
+            </div>
+            <div class="flip-card-back">
+              <p><strong>Willingness to Pay (WTP):</strong> Maximum price a customer is willing to pay for a product/service.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE MODULE VIEW -->
+    <section id="moduleView">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2 id="moduleTitle" style="margin: 0;">Module</h2>
+            <div class="progress" id="moduleProgress"></div>
+          </div>
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); cursor: pointer;">
+              <input type="checkbox" id="examModeToggle" onchange="toggleExamMode()" style="width: 18px; height: 18px; cursor: pointer;">
+              <span style="font-weight: 600; font-size: 0.95rem;">🎯 Exam Mode</span>
+            </label>
+            <div id="timerDisplay" style="display: none; padding: 0.5rem 1rem; background: var(--danger-light); border-radius: 8px; border: 1px solid var(--danger); font-weight: 600; color: var(--danger-dark); font-size: 0.95rem;">
+              ⏱️ <span id="timer">90</span>s
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Framework Recap -->
+      <div id="frameworkRecap" class="card" style="display: none;">
+        <h3 id="frameworkRecapTitle"></h3>
+        <div id="frameworkRecapContent"></div>
+      </div>
+      <!-- Mini lesson -->
+      <div class="card">
+        <h3 id="lessonTitle"></h3>
+        <p id="lessonText"></p>
+      </div>
+
+      <!-- Case -->
+      <div class="card">
+        <h3 id="caseTitle"></h3>
+        <p id="caseText"></p>
+      </div>
+
+      <!-- Quiz -->
+      <div class="card quiz-card">
+        <div class="question-header">
+          <div class="question-badge">🔥 Trigger Question</div>
+          <div class="question-number" id="questionNumber"></div>
+        </div>
+        <h3>Quiz</h3>
+        <div id="questionText" class="question"></div>
+        <div id="options" class="options"></div>
+        <div id="feedback" class="feedback" style="display: none;"></div>
+        <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next Question →</button>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="flashcards">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <h2>📚 Flashcards – Competitive Strategy Review</h2>
+            <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.95rem;">
+              Total: <strong id="flashcardCount">0</strong> flashcards | 
+              To Review: <strong id="toReviewCount">0</strong> | 
+              Answered: <strong id="answeredCount">0</strong>
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button onclick="filterFlashcards('all')" id="filterAll" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: var(--accent); color: white;">All</button>
+            <button onclick="filterFlashcards('review')" id="filterReview" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: var(--bg-card); color: var(--text-secondary); border: 1px solid rgba(0,0,0,0.1);">To Review</button>
+            <button onclick="resetFlashcardProgress()" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: var(--text-muted); color: white;">Reset Progress</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flashcard Study View -->
+      <div class="flashcard-study-container">
+        <button class="flashcard-nav-btn flashcard-nav-prev" onclick="previousFlashcard()" id="prevBtn" aria-label="Previous flashcard">
+          <span>←</span>
+        </button>
+
+        <div class="flashcard-study-card-wrapper">
+          <div class="flashcard-study-card" id="flashcardStudyCard" onclick="flipStudyCard()">
+            <div class="flashcard-study-inner">
+              <div class="flashcard-study-front">
+                <div class="flashcard-number" id="flashcardNumber">1 / 76</div>
+                <h3 id="flashcardQuestion">Loading...</h3>
+                <div class="flashcard-hint">Click to see answer</div>
+              </div>
+              <div class="flashcard-study-back">
+                <div class="flashcard-number" id="flashcardNumberBack">1 / 76</div>
+                <h3 id="flashcardAnswer">Loading...</h3>
+                <div class="flashcard-actions">
+                  <button class="flashcard-action-btn flashcard-good" onclick="markFlashcardAnswer('good', event)">
+                    ✓ Good Answer
+                  </button>
+                  <button class="flashcard-action-btn flashcard-bad" onclick="markFlashcardAnswer('bad', event)">
+                    ✗ Need Review
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="flashcard-nav-btn flashcard-nav-next" onclick="nextFlashcard()" id="nextBtn" aria-label="Next flashcard">
+          <span>→</span>
+        </button>
+      </div>
+
+      <div class="card" style="margin-top: 2rem;">
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.95rem;">
+          Use arrow buttons or keyboard arrows (← →) to navigate. Click the card to flip.
+        </p>
+      </div>
+    </section>
+
+    <!-- SCOREBOARD -->
+    <section id="scoreboard">
+      <div class="card">
+        <h2>Scoreboard</h2>
+        <p style="font-size: 1.2rem; margin: 1rem 0;">
+          Total XP: <strong style="color: var(--accent); font-size: 1.5rem;" id="xpScoreboard">0</strong>
+        </p>
+        <p style="margin-bottom: 1rem;">Badges unlocked:</p>
+        <div class="badge-display" id="badgeList">
+          <div class="badge-item empty">No badges yet – finish a module to earn one.</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Module Progress</h3>
+        <div id="moduleProgressList"></div>
+      </div>
+      <div class="card">
+        <h3>Reset Progress</h3>
+        <p>Want to start fresh? This will clear all your XP, badges, and progress.</p>
+        <button onclick="resetProgress()" style="background: var(--danger);">Reset All Progress</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // ===== STATE =====
+    let totalXP = 0;
+    let badges = [];
+    let currentModule = null;
+    let currentLevelIndex = 0;
+    let currentQuestionIndex = 0;
+    let moduleProgress = {}; // Track progress per module
+    let examMode = false;
+    let examAnswers = []; // Store answers in exam mode
+    let timerInterval = null;
+    let timeLeft = 90;
+
+    // ===== MODULE DEFINITIONS =====
+    const modules = {
+      macro: {
+        title: "Macro & Trends – PESTEL and Scenarios",
+        badgeName: "Trend Watcher",
+        levels: [
+          {
+            lessonTitle: "Level 1 – Reading the Macroenvironment with PESTEL",
+            lessonText: "Macroenvironment analysis scans Political, Economic, Sociocultural, Technological, Environmental and Legal forces around the firm. A PESTEL exercise is often the first step: it helps identify major trends or key drivers of change that will shape industries and markets.",
+            caseTitle: "Case: Tesla and the EU 2035 Ban on New ICE Cars",
+            caseText: "In the EU, new CO2-emitting petrol and diesel cars are scheduled to be phased out from 2035. This regulatory change pushes carmakers towards electric vehicles and reshapes investment decisions for incumbents and EV players like Tesla.",
+            questions: [
+              {
+                text: "The EU decision to phase out new petrol and diesel cars from 2035 is mainly a change in which PESTEL dimensions?",
+                options: [
+                  "Technological only",
+                  "Environmental and Legal/Regulatory",
+                  "Micro-environment (competitors only)",
+                  "Firm's internal capabilities"
+                ],
+                correctIndex: 1,
+                explanation: "It is an Environmental and Legal/Regulatory shift in the macroenvironment that affects all firms in the sector."
+              },
+              {
+                text: "According to the course, what is the main purpose of doing a PESTEL exercise before deeper analysis?",
+                options: [
+                  "To forecast exact future prices and profits",
+                  "To scan the macroenvironment and identify key drivers of change",
+                  "To list all competitors in detail",
+                  "To design the organization chart"
+                ],
+                correctIndex: 1,
+                explanation: "PESTEL scans the environment and helps you identify the major trends or key drivers of change that will later feed into scenarios and strategy."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 2 – Stakeholders and Macro Shocks",
+            lessonText: "Macro-level changes often arrive through regulation, social movements or technological shifts and then transmit through stakeholders. The course distinguishes exogenous macro changes from endogenous competitive moves. Stakeholder analysis helps map who gains, who loses and whose support you need.",
+            caseTitle: "Case: Glovo and Spain's Rider Law",
+            caseText: "In Spain, the 'Rider Law' pushed platforms like Glovo to classify many couriers as employees rather than freelancers. This legal change affects labor costs, flexibility, and relationships with workers, regulators, customers and investors.",
+            questions: [
+              {
+                text: "Spain's Rider Law for delivery platforms is best described as:",
+                options: [
+                  "A micro move by a competitor",
+                  "An exogenous macroenvironment shock (Political/Legal)",
+                  "An internal organizational change",
+                  "A technological innovation by Glovo"
+                ],
+                correctIndex: 1,
+                explanation: "It is a Political/Legal change imposed at the country level – a macro shock affecting all delivery platforms operating there."
+              },
+              {
+                text: "When Glovo has to adapt to the Rider Law, which stakeholder groups become especially important in the analysis?",
+                options: [
+                  "Only shareholders",
+                  "Only app developers",
+                  "Workers, regulators and customers concerned with working conditions",
+                  "Only foreign competitors"
+                ],
+                correctIndex: 2,
+                explanation: "Stakeholder analysis would focus on workers (couriers), regulators, and customers who care about fairness and reliability."
+              },
+              {
+                text: "In stakeholder analysis, why can the enemy-of-my-enemy-is-my-friend dynamic complicate strategy execution?",
+                options: [
+                  "Because it reduces the diversity of stakeholder interests.",
+                  "Because stakeholders may form coalitions that amplify pressure on the firm.",
+                  "Because investors and employees always have aligned interests.",
+                  "Because regulators are structurally neutral actors.",
+                  "Because stakeholders are independent and static."
+                ],
+                correctIndex: 1,
+                explanation: "The slides stress interdependence: stakeholders can ally (e.g., NGOs + media + regulators) to multiply pressure on the firm. These coalitions increase influence and make strategic adaptation harder."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 3 – Dealing with Uncertainty: Scenarios",
+            lessonText: "The course stresses that some trends are more predictable than others (e.g. ageing populations) while others are highly uncertain (e.g. oil prices). Scenario planning is used when there is high uncertainty about how key drivers of change will evolve, so you build a few plausible futures instead of one forecast.",
+            caseTitle: "Case: Electric Vehicles and Uncertain Climate Policy",
+            caseText: "For carmakers and energy companies, the future of EV adoption and climate regulation is uncertain. Governments may double down on strict bans on internal combustion engines or soften timelines. Strategy must be robust across these scenarios.",
+            questions: [
+              {
+                text: "In the course, scenario planning is recommended mainly when:",
+                options: [
+                  "The environment is perfectly stable and predictable",
+                  "There is high uncertainty and several plausible futures driven by a few key variables",
+                  "We already know exactly which competitor will win",
+                  "The firm has no data on its customers"
+                ],
+                correctIndex: 1,
+                explanation: "Scenarios are used to explore futures when uncertainty is high: you identify key drivers and build a small set of coherent, plausible futures."
+              },
+              {
+                text: "For the EV and climate policy example, which of the following is most likely a key driver of change in a scenario exercise?",
+                options: [
+                  "The exact color of car interiors",
+                  "Regulatory stringency on CO2 emissions and support for charging infrastructure",
+                  "How many employees the firm has this year",
+                  "The number of different coffee brands in the office"
+                ],
+                correctIndex: 1,
+                explanation: "Regulatory stringency and support for infrastructure are macro drivers that strongly influence EV adoption and industry structure."
+              }
+            ]
+          }
+        ]
+      },
+      industry: {
+        title: "Industry Battles – Porter's 5 Forces",
+        badgeName: "Industry Analyst",
+        levels: [
+          {
+            lessonTitle: "Level 1 – Airlines",
+            lessonText: "Industry analysis with Porter's 5 Forces focuses on rivalry, threat of entry, substitutes and complements, buyer power and supplier power. Airlines in many markets face intense rivalry, powerful buyers who can compare prices easily, and high fixed costs.",
+            caseTitle: "Case: Southwest Airlines",
+            caseText: "Southwest built a low-cost model with point-to-point routes, secondary airports and a single aircraft type. By removing meals, seat assignments and many frills, it simplified operations and kept costs far below traditional airlines.",
+            questions: [
+              {
+                text: "In the traditional airline industry, which force is usually very strong and hurts profitability?",
+                options: [
+                  "Bargaining power of buyers",
+                  "Threat of substitutes is zero",
+                  "No rivalry at all",
+                  "Supplier power is irrelevant"
+                ],
+                correctIndex: 0,
+                explanation: "Buyers can compare prices across airlines and products are similar, so buyer power is strong and squeezes margins."
+              },
+              {
+                text: "Southwest's model completely escapes the 5 Forces and makes industry structure irrelevant.",
+                options: [
+                  "True – 5 Forces no longer matter",
+                  "False – structure still matters, but Southwest positions itself smartly within it"
+                ],
+                correctIndex: 1,
+                explanation: "Southwest cannot erase the 5 Forces, but its activity system helps it be more profitable than typical airlines in a tough industry."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 2 – Streaming Wars",
+            lessonText: "In streaming, rivalry is intense (many platforms), substitutes are strong (YouTube, TikTok, games), and entry barriers depend on technology and content access. Industry analysis explains where average profitability comes from before we look at firm differences.",
+            caseTitle: "Case: Netflix's Pivot to Streaming",
+            caseText: "Netflix moved from DVD-by-mail to streaming and then to producing its own content. This reduced dependence on traditional studios, allowed differentiation through exclusive shows, and changed the balance of power in the value chain.",
+            questions: [
+              {
+                text: "When Netflix invests heavily in its own original content, which force is it mainly trying to influence?",
+                options: [
+                  "Supplier power (studios and content owners)",
+                  "Threat of new entrants only",
+                  "Buyer power has no role here",
+                  "Threat of substitutes disappears"
+                ],
+                correctIndex: 0,
+                explanation: "Producing its own shows reduces dependence on external content suppliers and lowers their bargaining power."
+              },
+              {
+                text: "Netflix's transition from DVDs to streaming is best seen as:",
+                options: [
+                  "A small marketing campaign",
+                  "A dynamic capability: sensing digital change and reconfiguring resources and the business model",
+                  "Only a cost-cutting move",
+                  "Just a change of logo and colors"
+                ],
+                correctIndex: 1,
+                explanation: "It is a dynamic capability example: sensing an opportunity, seizing it, and reconfiguring activities around streaming."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 3 – Wine & Blue Ocean",
+            lessonText: "The mass-market wine industry in the US used to be crowded, with many similar brands competing on complexity, vineyard prestige and tasting notes that intimidated non-experts.",
+            caseTitle: "Case: Yellow Tail Wine",
+            caseText: "Yellow Tail simplified wine (easy-drinking taste), made branding fun and colourful, and targeted beer drinkers and casual consumers. It reduced some traditional factors (range, complexity, prestige) and raised others (ease of choice, fun, price vs budget wine), creating a Blue Ocean.",
+            questions: [
+              {
+                text: "Compared to traditional wineries, Yellow Tail mainly:",
+                options: [
+                  "Increased product complexity and used traditional French labels",
+                  "Competed head-to-head on exactly the same factors",
+                  "Created a new strategic space by changing which factors it competes on",
+                  "Only cut costs without changing the offer"
+                ],
+                correctIndex: 2,
+                explanation: "Yellow Tail is a Blue Ocean example: it changed the value curve instead of fighting on the same dimensions as incumbents."
+              },
+              {
+                text: "Yellow Tail's primary target customers were:",
+                options: [
+                  "Only expert wine drinkers and sommeliers",
+                  "Beer drinkers and casual wine consumers who were intimidated by wine",
+                  "Only ultra-premium collectors",
+                  "Only business travellers"
+                ],
+                correctIndex: 1,
+                explanation: "The strategy focused on non-experts, including beer drinkers, by making wine simple, approachable and fun."
+              }
+            ]
+          }
+        ]
+      },
+      firm: {
+        title: "Firm Strategy – Value Stick, Generic Strategies & VRIO",
+        badgeName: "Strategy Architect",
+        levels: [
+          {
+            lessonTitle: "Level 1 – Value Stick and Generic Competitive Strategies",
+            lessonText: "The value stick represents the value created and how it is shared: from suppliers' opportunity cost (SOC) to cost, price and customers' willingness to pay (WTP). What matters for competitive advantage is the gap between WTP and SOC, and who captures which slice. Generic strategies focus on cost leadership, differentiation and focus.",
+            caseTitle: "Case: Cost Leadership vs Differentiation",
+            caseText: "A low-cost airline like Southwest lowers cost through a coherent activity system (no frills, standardized fleet, fast turnarounds) while keeping WTP acceptable. A company like Apple raises WTP through design, ecosystem and brand, accepting somewhat higher costs to pursue differentiation.",
+            questions: [
+              {
+                text: "If a firm lowers its unit cost while keeping WTP and price roughly constant, which part of the value stick mainly changes?",
+                options: [
+                  "Consumer surplus shrinks",
+                  "The firm's margin (price – cost) widens",
+                  "Suppliers capture much more value",
+                  "The total gap between WTP and SOC disappears"
+                ],
+                correctIndex: 1,
+                explanation: "Lower cost at the same price increases the firm's margin between price and cost – a classic cost leadership move."
+              },
+              {
+                text: "Investing in brand, design and user experience to raise WTP faster than cost is most consistent with:",
+                options: [
+                  "Pure cost leadership",
+                  "Differentiation strategy",
+                  "No strategy – stuck in the middle by definition",
+                  "Only a short-term promotion"
+                ],
+                correctIndex: 1,
+                explanation: "Raising WTP based on uniqueness and perceived value is the logic of a differentiation strategy."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 2 – RBV and VRIO Resources",
+            lessonText: "The Resource-based View (RBV) treats firms as heterogeneous bundles of resources and capabilities. If a resource is Valuable, Rare, costly to Imitate and the firm is Organized to capture value (VRIO), it can support a sustained competitive advantage.",
+            caseTitle: "Case: Data, Algorithms and Brands",
+            caseText: "Examples often discussed in class include recommendation algorithms trained on rich user data, strong brands, or company cultures that support innovation (like 3M's 15% time). These can be valuable and hard to imitate, especially when embedded in systems, routines and culture.",
+            questions: [
+              {
+                text: "A resource that is Valuable but not Rare is most likely to lead to:",
+                options: [
+                  "Sustained competitive advantage",
+                  "Competitive disadvantage",
+                  "Competitive parity (no long-run advantage)",
+                  "Guaranteed monopoly"
+                ],
+                correctIndex: 2,
+                explanation: "If everyone has it, it may be necessary to compete but it will typically only lead to parity, not sustained advantage."
+              },
+              {
+                text: "Consider a recommendation algorithm trained on millions of users' viewing data over many years. Which VRIO attributes does it most plausibly have?",
+                options: [
+                  "V and R only (easy to imitate and no organization needed)",
+                  "V, R and I (hard to imitate), but it still needs the firm to be organized to exploit it",
+                  "Only O (organization) but no value",
+                  "No VRIO attributes at all"
+                ],
+                correctIndex: 1,
+                explanation: "Such an algorithm can be valuable, rare and costly to imitate. The firm still needs to be organized (structure, incentives, culture) to exploit it."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 3 – Dynamic Capabilities: Sensing, Seizing, Reconfiguring",
+            lessonText: "Static resources are not enough in a changing environment. Dynamic capabilities are the firm's abilities to sense opportunities and threats, seize them and reconfigure resources and activities over time.",
+            caseTitle: "Case: Netflix vs Blockbuster",
+            caseText: "Netflix sensed the shift towards broadband and on-demand viewing, seized the opportunity by investing in streaming, and reconfigured its business away from DVDs. Blockbuster was slower to react and remained tied to its existing store-based model, despite early signals.",
+            questions: [
+              {
+                text: "When a firm systematically scans for weak signals (e.g. new technologies, changing customer habits), this mainly relates to which dynamic capability?",
+                options: [
+                  "Sensing",
+                  "Seizing",
+                  "Reconfiguring",
+                  "None – this is just accounting"
+                ],
+                correctIndex: 0,
+                explanation: "Sensing is about identifying and interpreting opportunities and threats in the environment."
+              },
+              {
+                text: "In the Netflix example, closing most DVD operations and reorganizing around streaming infrastructure is mainly an example of:",
+                options: [
+                  "Sensing only",
+                  "Seizing only",
+                  "Reconfiguring resources and activities",
+                  "A pure industry-level effect with no firm action"
+                ],
+                correctIndex: 2,
+                explanation: "Reconfiguring is about changing the asset base and activity system to align with the new strategy (here, streaming)."
+              }
+            ]
+          }
+        ]
+      },
+      platforms: {
+        title: "Platforms & Ecosystems – Network Effects",
+        badgeName: "Platform Guru",
+        levels: [
+          {
+            lessonTitle: "Level 1 – Platform Business Model vs Pipeline",
+            lessonText: "In the course, platform businesses are defined as models that enable direct interactions between affiliated customers (Hagiu & Wright). Instead of just owning assets and selling products (pipeline), platforms orchestrate external resources and interactions between user groups.",
+            caseTitle: "Case: Glovo as a Multi-sided Platform",
+            caseText: "Glovo connects customers who place orders, businesses (restaurants, shops, pharmacies) that supply products, and couriers who deliver them. The platform does not own all the inventory; it facilitates interactions and takes a cut.",
+            questions: [
+              {
+                text: "According to the platform definition discussed in class, platforms primarily:",
+                options: [
+                  "Own all the physical assets and produce everything internally",
+                  "Enable direct interactions between different types of affiliated customers on the platform",
+                  "Eliminate all intermediaries from markets",
+                  "Are just another word for a website"
+                ],
+                correctIndex: 1,
+                explanation: "The key idea is enabling direct interactions between affiliated customers (e.g. buyers, sellers, complementors) on the platform."
+              },
+              {
+                text: "Glovo is best described as connecting which main groups on the platform?",
+                options: [
+                  "Only Glovo employees and shareholders",
+                  "Customers, merchants (restaurants/shops) and couriers",
+                  "Only restaurants and big supermarkets",
+                  "Only regulators and investors"
+                ],
+                correctIndex: 1,
+                explanation: "Glovo operates a multi-sided marketplace between customers, merchants and couriers."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 2 – Network Effects and Tipping Points",
+            lessonText: "Demand-side network effects occur when the utility (and WTP) a user derives from a product increases with the number of other users. Direct network effects are within the same side (e.g. messaging apps), while cross-side effects link different sides (e.g. more restaurants make the platform more valuable to customers).",
+            caseTitle: "Case: Messaging Apps and Food Delivery Platforms",
+            caseText: "A messaging app becomes more valuable when more of your friends use it (direct network effects). A food delivery platform like Glovo becomes more attractive to customers when more restaurants join, and more attractive to restaurants when more customers and couriers are active (cross-side network effects).",
+            questions: [
+              {
+                text: "When a messaging app is more useful because many of your friends are already on it, this is an example of:",
+                options: [
+                  "A supply-side economy of scale only",
+                  "A direct (same-side) network effect",
+                  "A cross-side network effect between two different user groups",
+                  "No network effect at all"
+                ],
+                correctIndex: 1,
+                explanation: "This is a direct (same-side) network effect: more users on the same side increase the utility for each user."
+              },
+              {
+                text: "When more restaurants join a delivery platform and this increases the platform's value for customers, we are mainly seeing:",
+                options: [
+                  "A cross-side network effect from restaurants to customers",
+                  "A direct network effect on the courier side only",
+                  "Only cost reductions, no network effects",
+                  "A pure macro PESTEL effect"
+                ],
+                correctIndex: 0,
+                explanation: "More restaurants make the platform more valuable to customers – a cross-side network effect."
+              },
+              {
+                text: "A ride-hailing platform dominates a region due to strong network effects, proprietary routing algorithms, and exclusive airport partnerships. A new competitor enters with better prices and a more fuel-efficient fleet but struggles to reach critical mass. The incumbent raises commissions, drivers start leaving, and riders complain about longer wait times. From a Resource-Based View combined with platform economics, what represents the largest long-term threat to the incumbent's competitive advantage?",
+                options: [
+                  "Competitors' access to cheaper vehicle technology.",
+                  "Loss of direct control over customer payment data.",
+                  "Weakening of cross-side network effects due to driver attrition.",
+                  "Failure to differentiate in-app user interface features.",
+                  "Declining airport partnership revenues."
+                ],
+                correctIndex: 2,
+                explanation: "The core advantage of ride-hailing platforms is demand-side network effects, not vehicles, prices, or UI. If drivers leave, wait times increase, riders leave, rides drop, and even more drivers leave. This unraveling of cross-side network effects is a much more serious long-term threat than hardware, price, or interface issues."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 3 – Winner-take-all Dynamics",
+            lessonText: "When network effects are strong and users coordinate on expectations, markets can exhibit tipping points. Beyond the tipping point, one platform can move towards winner-take-all (WTA), locking in users and locking out weaker rivals.",
+            caseTitle: "Case: Ride-hailing and Social Networks",
+            caseText: "Ride-hailing apps and social networks often see strong feedback loops: more users attract more drivers or content, which attracts even more users. If one platform gets far ahead, it may become very hard for smaller competitors to catch up.",
+            questions: [
+              {
+                text: "In a market with strong network effects, a 'tipping point' refers to:",
+                options: [
+                  "The exact moment when costs equal revenues",
+                  "The user base level after which expectations and network effects push one platform ahead very quickly",
+                  "The day the company launches its first app",
+                  "Only the point where regulation changes"
+                ],
+                correctIndex: 1,
+                explanation: "The tipping point is where expectations and network effects reinforce each other and the strong can get stronger."
+              },
+              {
+                text: "In a winner-take-all platform market, a key strategic risk for a smaller rival is:",
+                options: [
+                  "Having too many users",
+                  "Being locked out if users coordinate on a competing platform that has already passed the tipping point",
+                  "Having no fixed costs",
+                  "Being forced to do PESTEL analysis"
+                ],
+                correctIndex: 1,
+                explanation: "Once expectations coordinate on a rival and it passes the tipping point, smaller platforms can struggle to attract enough users to survive."
+              }
+            ]
+          }
+        ]
+      }
+    };
+
+    // ===== PERSISTENCE =====
+    function loadState() {
+      const saved = localStorage.getItem('strategyQuestState');
+      if (saved) {
+        try {
+          const state = JSON.parse(saved);
+          totalXP = state.totalXP || 0;
+          badges = state.badges || [];
+          moduleProgress = state.moduleProgress || {};
+        } catch (e) {
+          console.error('Failed to parse saved state, resetting:', e);
+          localStorage.removeItem('strategyQuestState');
+          totalXP = 0;
+          badges = [];
+          moduleProgress = {};
+        }
+      }
+      updateDisplays();
+    }
+
+    function saveState() {
+      const state = {
+        totalXP,
+        badges,
+        moduleProgress
+      };
+      localStorage.setItem('strategyQuestState', JSON.stringify(state));
+    }
+
+    function resetProgress() {
+      if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+        totalXP = 0;
+        badges = [];
+        moduleProgress = {};
+        localStorage.removeItem('strategyQuestState');
+        updateDisplays();
+        updateModuleProgress();
+        alert('Progress reset!');
+      }
+    }
+
+    // ===== UI HELPERS =====
+    function showSection(id) {
+      const section = document.getElementById(id);
+      if (!section) {
+        console.error(`Section with id "${id}" not found`);
+        return;
+      }
+      
+      document.querySelectorAll('section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      section.classList.add('active');
+      
+      document.querySelectorAll('nav button').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${id}'`)) {
+          btn.classList.add('active');
+        }
+      });
+
+      if (id === 'scoreboard') {
+        updateScoreboard();
+      } else if (id === 'modules') {
+        updateModuleProgress();
+      } else if (id === 'flashcards') {
+        loadFlashcards();
+      }
+    }
+
+    function updateDisplays() {
+      const xpEl = document.getElementById('xp');
+      const badgesEl = document.getElementById('badges');
+      if (xpEl) xpEl.textContent = totalXP;
+      if (badgesEl) badgesEl.textContent = badges.length;
+    }
+
+    function updateModuleProgress() {
+      Object.keys(modules).forEach(key => {
+        const progress = moduleProgress[key] || { levelsCompleted: 0, questionsAnswered: 0 };
+        const totalLevels = modules[key].levels.length;
+        const totalQuestions = modules[key].levels.reduce((sum, level) => sum + level.questions.length, 0);
+        const completion = totalLevels > 0 ? (progress.levelsCompleted / totalLevels) * 100 : 0;
+        
+        const progressDiv = document.getElementById(`${key}-progress`);
+        const progressBar = document.getElementById(`${key}-bar`);
+        
+        if (progressDiv && progressBar) {
+          if (progress.levelsCompleted > 0) {
+            progressDiv.style.display = 'block';
+            progressBar.style.width = completion + '%';
+          } else {
+            progressDiv.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    function updateScoreboard() {
+      const xpScoreboardEl = document.getElementById('xpScoreboard');
+      if (xpScoreboardEl) xpScoreboardEl.textContent = totalXP;
+      
+      const badgeList = document.getElementById('badgeList');
+      if (!badgeList) return;
+      badgeList.innerHTML = '';
+      
+      if (badges.length === 0) {
+        badgeList.innerHTML = '<div class="badge-item empty">No badges yet – finish a module to earn one.</div>';
+      } else {
+        badges.forEach(badge => {
+          const badgeDiv = document.createElement('div');
+          badgeDiv.className = 'badge-item';
+          badgeDiv.innerHTML = `🏆 ${badge}`;
+          badgeList.appendChild(badgeDiv);
+        });
+      }
+
+      // Module progress list
+      const progressList = document.getElementById('moduleProgressList');
+      if (!progressList) return;
+      progressList.innerHTML = '';
+      
+      Object.keys(modules).forEach(key => {
+        const module = modules[key];
+        const progress = moduleProgress[key] || { levelsCompleted: 0, questionsAnswered: 0 };
+        const totalLevels = module.levels.length;
+        const totalQuestions = module.levels.reduce((sum, level) => sum + level.questions.length, 0);
+        const completion = totalLevels > 0 ? (progress.levelsCompleted / totalLevels) * 100 : 0;
+        
+        const moduleDiv = document.createElement('div');
+        moduleDiv.className = 'module-completion';
+        moduleDiv.innerHTML = `
+          <h4>${module.title}</h4>
+          <p>Levels completed: ${progress.levelsCompleted}/${totalLevels}</p>
+          <div class="completion-bar">
+            <div class="completion-fill" style="width: ${completion}%"></div>
+          </div>
+        `;
+        progressList.appendChild(moduleDiv);
+      });
+    }
+
+    function createConfetti() {
+      const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#fbbf24'];
+      const confettiCount = 50;
+      
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-10px';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 5000);
+      }
+    }
+
+    function showXPGain(amount, reason) {
+      const xpDiv = document.createElement('div');
+      xpDiv.className = 'xp-gain';
+      xpDiv.textContent = `+${amount} XP: ${reason}`;
+      document.body.appendChild(xpDiv);
+      
+      // Create confetti for significant XP gains
+      if (amount >= 20) {
+        createConfetti();
+      }
+      
+      setTimeout(() => {
+        xpDiv.remove();
+      }, 3000);
+    }
+
+    // ===== EXAM MODE =====
+    function toggleExamMode() {
+      const examToggle = document.getElementById('examModeToggle');
+      const timerDisplay = document.getElementById('timerDisplay');
+      if (!examToggle || !timerDisplay) return;
+      
+      examMode = examToggle.checked;
+      
+      if (examMode) {
+        timerDisplay.style.display = 'block';
+        timeLeft = 90;
+        examAnswers = [];
+        startTimer();
+      } else {
+        timerDisplay.style.display = 'none';
+        stopTimer();
+      }
+      
+      if (currentModule) {
+        loadCurrentState();
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+          stopTimer();
+          if (currentModule) {
+            // Auto-submit current answer if timer runs out
+            const optionsButtons = document.querySelectorAll('#options button:not(:disabled)');
+            if (optionsButtons.length > 0 && optionsButtons[0]) {
+              optionsButtons[0].click();
+            }
+          }
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function updateTimerDisplay() {
+      const timerEl = document.getElementById('timer');
+      if (timerEl) {
+        timerEl.textContent = Math.max(0, timeLeft);
+        const timerDisplay = timerEl.parentElement;
+        if (timeLeft <= 10) {
+          timerDisplay.style.background = 'var(--danger-light)';
+          timerDisplay.style.borderColor = 'var(--danger)';
+          timerDisplay.style.color = 'var(--danger-dark)';
+          timerDisplay.style.animation = 'pulse 1s infinite';
+        } else {
+          timerDisplay.style.background = 'var(--danger-light)';
+          timerDisplay.style.borderColor = 'var(--danger)';
+          timerDisplay.style.color = 'var(--danger-dark)';
+          timerDisplay.style.animation = 'none';
+        }
+      }
+    }
+
+    // ===== FRAMEWORK RECAPS =====
+    const frameworkRecaps = {
+      'macro': {
+        0: {
+          title: '📋 Framework Recap: PESTEL Analysis',
+          content: `
+            <ul>
+              <li><strong>Define scope:</strong> Political, Economic, Sociocultural, Technological, Environmental, Legal forces</li>
+              <li><strong>Purpose:</strong> Identify key drivers of change that will shape industries</li>
+              <li><strong>Output:</strong> List of major trends and uncertainties</li>
+              <li><strong>Next step:</strong> Use scenarios if uncertainty is high</li>
+            </ul>
+          `
+        },
+        1: {
+          title: '📋 Framework Recap: Stakeholder Analysis',
+          content: `
+            <ul>
+              <li><strong>Identify stakeholders:</strong> Who gains, who loses from macro changes?</li>
+              <li><strong>Map relationships:</strong> Workers, regulators, customers, investors</li>
+              <li><strong>Exogenous vs Endogenous:</strong> Distinguish macro shocks from competitive moves</li>
+            </ul>
+          `
+        },
+        2: {
+          title: '📋 Framework Recap: Scenario Planning',
+          content: `
+            <ul>
+              <li><strong>When to use:</strong> High uncertainty about key drivers</li>
+              <li><strong>Process:</strong> Identify 2-3 key variables → Build 2-4 plausible futures</li>
+              <li><strong>Goal:</strong> Strategy robust across scenarios, not just one forecast</li>
+            </ul>
+          `
+        }
+      },
+      'industry': {
+        0: {
+          title: '📋 Framework Recap: Porter\'s 5 Forces',
+          content: `
+            <ul>
+              <li><strong>Step 1:</strong> Define the industry (product + geography)</li>
+              <li><strong>Step 2:</strong> For each force, ask: does it raise or reduce average profitability?</li>
+              <li><strong>Step 3:</strong> Justify with data: concentration, switching costs, differentiation, etc.</li>
+              <li><strong>Conclusion:</strong> What does this imply for average profitability vs other industries?</li>
+            </ul>
+          `
+        },
+        1: {
+          title: '📋 Framework Recap: 5 Forces & Dynamic Capabilities',
+          content: `
+            <ul>
+              <li><strong>5 Forces:</strong> Explain industry-level profitability</li>
+              <li><strong>Dynamic Capabilities:</strong> Explain firm differences (sensing, seizing, reconfiguring)</li>
+              <li><strong>Netflix example:</strong> Reduced supplier power (studios) by producing own content</li>
+            </ul>
+          `
+        },
+        2: {
+          title: '📋 Framework Recap: Blue Ocean Strategy (ERRC)',
+          content: `
+            <ul>
+              <li><strong>Eliminate:</strong> Remove factors industry competes on (e.g., complexity, prestige)</li>
+              <li><strong>Reduce:</strong> Lower factors below industry standard (e.g., range, price)</li>
+              <li><strong>Raise:</strong> Raise factors above industry standard (e.g., ease, fun)</li>
+              <li><strong>Create:</strong> Add new factors (e.g., approachability for non-experts)</li>
+            </ul>
+          `
+        }
+      },
+      'firm': {
+        0: {
+          title: '📋 Framework Recap: Value Stick',
+          content: `
+            <ul>
+              <li><strong>Components:</strong> SOC (Supplier Opportunity Cost) → Cost → Price → WTP (Willingness to Pay)</li>
+              <li><strong>Firm margin:</strong> Price - Cost (key for profitability)</li>
+              <li><strong>Strategy:</strong> Lower cost (cost leadership) OR raise WTP (differentiation)</li>
+              <li><strong>Warning:</strong> Avoid "stuck in the middle" (low WTP + high cost)</li>
+            </ul>
+          `
+        },
+        1: {
+          title: '📋 Framework Recap: VRIO',
+          content: `
+            <ul>
+              <li><strong>V (Valuable):</strong> Does it help exploit opportunities or neutralize threats?</li>
+              <li><strong>R (Rare):</strong> Do few competitors have it?</li>
+              <li><strong>I (Inimitable):</strong> Is it costly to imitate? (causal ambiguity, path dependence)</li>
+              <li><strong>O (Organized):</strong> Is the firm organized to capture value? (structure, incentives, culture)</li>
+              <li><strong>Result:</strong> VRIO → Sustained competitive advantage</li>
+            </ul>
+          `
+        },
+        2: {
+          title: '📋 Framework Recap: Dynamic Capabilities',
+          content: `
+            <ul>
+              <li><strong>Sensing:</strong> Identify and interpret opportunities/threats (scan environment)</li>
+              <li><strong>Seizing:</strong> Mobilize resources to address opportunities (invest, commit)</li>
+              <li><strong>Reconfiguring:</strong> Change asset base and activities (restructure, transform)</li>
+              <li><strong>Example:</strong> Netflix sensed streaming → seized by investing → reconfigured from DVDs</li>
+            </ul>
+          `
+        }
+      },
+      'platforms': {
+        0: {
+          title: '📋 Framework Recap: Platform vs Pipeline',
+          content: `
+            <ul>
+              <li><strong>Pipeline:</strong> Own assets, produce products, sell to customers</li>
+              <li><strong>Platform:</strong> Enable direct interactions between affiliated customers</li>
+              <li><strong>Key difference:</strong> Platform orchestrates external resources, doesn't own everything</li>
+              <li><strong>Example:</strong> Glovo connects customers, merchants, couriers (multi-sided)</li>
+            </ul>
+          `
+        },
+        1: {
+          title: '📋 Framework Recap: Network Effects',
+          content: `
+            <ul>
+              <li><strong>Direct (same-side):</strong> More users on same side increase value (e.g., messaging apps)</li>
+              <li><strong>Cross-side:</strong> More users on one side increase value for other side (e.g., restaurants → customers)</li>
+              <li><strong>Demand-side:</strong> Value increases with number of users (vs supply-side = economies of scale)</li>
+            </ul>
+          `
+        },
+        2: {
+          title: '📋 Framework Recap: Winner-take-all Dynamics',
+          content: `
+            <ul>
+              <li><strong>Tipping Point:</strong> User base level where network effects push one platform ahead</li>
+              <li><strong>Winner-take-all:</strong> One platform dominates after tipping point</li>
+              <li><strong>Risk for smaller rivals:</strong> Locked out if users coordinate on competing platform</li>
+              <li><strong>Key:</strong> Strong network effects + user coordination = WTA markets</li>
+            </ul>
+          `
+        }
+      }
+    };
+
+    function showFrameworkRecap(moduleKey, levelIndex) {
+      const recap = frameworkRecaps[moduleKey]?.[levelIndex];
+      const recapDiv = document.getElementById('frameworkRecap');
+      if (!recapDiv) return;
+      
+      if (recap) {
+        recapDiv.style.display = 'block';
+        const titleEl = document.getElementById('frameworkRecapTitle');
+        const contentEl = document.getElementById('frameworkRecapContent');
+        if (titleEl) titleEl.textContent = recap.title;
+        if (contentEl) contentEl.innerHTML = recap.content;
+      } else {
+        recapDiv.style.display = 'none';
+      }
+    }
+
+    // ===== BOSS BATTLE =====
+    function startBossBattle() {
+      // Collect all questions from all modules
+      const allQuestions = [];
+      Object.keys(modules).forEach(moduleKey => {
+        if (!modules[moduleKey] || !modules[moduleKey].levels) return;
+        modules[moduleKey].levels.forEach(level => {
+          if (!level || !level.questions) return;
+          level.questions.forEach((q, qIdx) => {
+            if (q) {
+              allQuestions.push({
+                ...q,
+                moduleKey,
+                levelTitle: level.lessonTitle
+              });
+            }
+          });
+        });
+      });
+
+      if (allQuestions.length === 0) {
+        alert('No questions available for Boss Battle. Please check module data.');
+        return;
+      }
+
+      // Shuffle and take 10 random questions
+      const shuffled = allQuestions.sort(() => Math.random() - 0.5);
+      const bossQuestions = shuffled.slice(0, Math.min(10, allQuestions.length));
+
+      // Create synthetic module
+      currentModule = {
+        title: '🔥 Final Boss Battle – Mixed Strategy Quiz',
+        badgeName: 'Strategy Wizard',
+        levels: [{
+          lessonTitle: 'Boss Battle',
+          lessonText: 'Test your knowledge across all modules! Answer 10 random questions from Macro, Industry, Firm Strategy, and Platforms.',
+          caseTitle: 'Mixed Topics Challenge',
+          caseText: 'This quiz pulls questions from all course modules. Good luck!',
+          questions: bossQuestions
+        }]
+      };
+
+      currentLevelIndex = 0;
+      currentQuestionIndex = 0;
+      examMode = false;
+      examAnswers = [];
+      document.getElementById('examModeToggle').checked = false;
+      document.getElementById('timerDisplay').style.display = 'none';
+      
+      loadCurrentState();
+      showSection('moduleView');
+    }
+
+    // ===== MODULE LOGIC =====
+    function startModule(key) {
+      if (!modules[key]) {
+        console.error(`Module "${key}" not found`);
+        return;
+      }
+      currentModule = modules[key];
+      currentLevelIndex = 0;
+      currentQuestionIndex = 0;
+      examMode = false;
+      examAnswers = [];
+      const examToggle = document.getElementById('examModeToggle');
+      const timerDisplay = document.getElementById('timerDisplay');
+      if (examToggle) examToggle.checked = false;
+      if (timerDisplay) timerDisplay.style.display = 'none';
+      stopTimer();
+      loadCurrentState();
+      showSection('moduleView');
+    }
+
+    function loadCurrentState() {
+      if (!currentModule) return;
+      const m = currentModule;
+      if (!m.levels || !m.levels[currentLevelIndex]) return;
+      const level = m.levels[currentLevelIndex];
+      if (!level.questions || !level.questions[currentQuestionIndex]) return;
+      const q = level.questions[currentQuestionIndex];
+
+      const moduleTitleEl = document.getElementById('moduleTitle');
+      const moduleProgressEl = document.getElementById('moduleProgress');
+      if (moduleTitleEl) moduleTitleEl.textContent = m.title;
+      if (moduleProgressEl) {
+        moduleProgressEl.textContent =
+          `Level ${currentLevelIndex + 1} of ${m.levels.length} • Question ${currentQuestionIndex + 1} of ${level.questions.length}`;
+      }
+      const questionNumberEl = document.getElementById('questionNumber');
+      if (questionNumberEl) {
+        questionNumberEl.textContent = `Q${currentQuestionIndex + 1} / ${level.questions.length}`;
+      }
+      const lessonTitleEl = document.getElementById('lessonTitle');
+      const lessonTextEl = document.getElementById('lessonText');
+      const caseTitleEl = document.getElementById('caseTitle');
+      const caseTextEl = document.getElementById('caseText');
+      if (lessonTitleEl) lessonTitleEl.textContent = level.lessonTitle;
+      if (lessonTextEl) lessonTextEl.textContent = level.lessonText;
+      if (caseTitleEl) caseTitleEl.textContent = level.caseTitle;
+      if (caseTextEl) caseTextEl.textContent = level.caseText;
+
+      // Show framework recap
+      const moduleKey = Object.keys(modules).find(key => modules[key] === m);
+      const frameworkRecapEl = document.getElementById('frameworkRecap');
+      if (moduleKey) {
+        showFrameworkRecap(moduleKey, currentLevelIndex);
+      } else if (frameworkRecapEl) {
+        frameworkRecapEl.style.display = 'none';
+      }
+
+      const questionTextEl = document.getElementById('questionText');
+      const optionsDiv = document.getElementById('options');
+      const feedbackDiv = document.getElementById('feedback');
+      const nextBtn = document.getElementById('nextBtn');
+      if (questionTextEl) questionTextEl.textContent = q.text;
+      if (optionsDiv) optionsDiv.innerHTML = '';
+      if (feedbackDiv) {
+        feedbackDiv.textContent = '';
+        feedbackDiv.style.display = 'none';
+        feedbackDiv.className = 'feedback';
+      }
+      if (nextBtn) nextBtn.classList.add('hidden');
+
+      // Reset button states
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(idx);
+        optionsDiv.appendChild(btn);
+      });
+
+      // Start timer if exam mode
+      if (examMode) {
+        timeLeft = 90;
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    }
+
+    function selectOption(chosenIndex) {
+      const m = currentModule;
+      const level = m.levels[currentLevelIndex];
+      const q = level.questions[currentQuestionIndex];
+      const optionsButtons = document.querySelectorAll('#options button');
+      
+      // Store answer in exam mode
+      if (examMode) {
+        examAnswers.push({
+          questionIndex: currentQuestionIndex,
+          chosenIndex,
+          correctIndex: q.correctIndex
+        });
+        stopTimer();
+      }
+      
+      optionsButtons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.correctIndex) {
+          btn.classList.add('correct');
+        }
+        if (idx === chosenIndex && idx !== q.correctIndex) {
+          btn.classList.add('wrong');
+        }
+      });
+
+      const feedbackDiv = document.getElementById('feedback');
+      
+      if (examMode) {
+        // In exam mode, don't show feedback until end
+        feedbackDiv.style.display = 'none';
+        document.getElementById('nextBtn').classList.remove('hidden');
+      } else {
+        // Practice mode: show feedback immediately
+        feedbackDiv.style.display = 'block';
+        
+        if (chosenIndex === q.correctIndex) {
+          totalXP += 10;
+          updateDisplays();
+          saveState();
+          feedbackDiv.textContent = "✅ Correct! " + q.explanation;
+          feedbackDiv.className = 'feedback correct';
+          showXPGain(10, 'Correct answer');
+        } else {
+          feedbackDiv.textContent = "❌ Not quite. " + q.explanation;
+          feedbackDiv.className = 'feedback incorrect';
+        }
+        document.getElementById('nextBtn').classList.remove('hidden');
+      }
+    }
+
+
+    function showExamSummary() {
+      stopTimer();
+      const m = currentModule;
+      const level = m.levels[currentLevelIndex];
+      
+      // Calculate score
+      let correct = 0;
+      let total = examAnswers.length;
+      
+      examAnswers.forEach(answer => {
+        if (answer.chosenIndex === answer.correctIndex) {
+          correct++;
+        }
+      });
+
+      // Show feedback for current question
+      const optionsDiv = document.getElementById('options');
+      const feedbackDiv = document.getElementById('feedback');
+      const currentAnswer = examAnswers[examAnswers.length - 1];
+      const currentQ = level.questions[currentQuestionIndex];
+      
+      if (currentAnswer) {
+        const buttons = optionsDiv.querySelectorAll('button');
+        buttons.forEach((btn, idx) => {
+          if (idx === currentQ.correctIndex) {
+            btn.classList.add('correct');
+          }
+          if (idx === currentAnswer.chosenIndex && idx !== currentQ.correctIndex) {
+            btn.classList.add('wrong');
+          }
+        });
+        
+        feedbackDiv.style.display = 'block';
+        if (currentAnswer.chosenIndex === currentQ.correctIndex) {
+          feedbackDiv.textContent = "✅ Correct! " + currentQ.explanation;
+          feedbackDiv.className = 'feedback correct';
+        } else {
+          feedbackDiv.textContent = "❌ Incorrect. " + currentQ.explanation;
+          feedbackDiv.className = 'feedback incorrect';
+        }
+      }
+
+      // Determine rank
+      let rank = '';
+      let rankColor = '';
+      if (correct <= 4) {
+        rank = 'Rookie Strategist';
+        rankColor = 'rgba(100, 100, 100, 0.3)';
+      } else if (correct <= 7) {
+        rank = 'Strategy Analyst';
+        rankColor = 'rgba(99, 102, 241, 0.3)';
+      } else {
+        rank = 'Strategy Wizard';
+        rankColor = 'rgba(168, 85, 247, 0.3)';
+        createConfetti();
+      }
+
+      // Create summary card
+      const summaryDiv = document.createElement('div');
+      summaryDiv.className = 'exam-summary';
+      summaryDiv.innerHTML = `
+        <h3>📊 Exam Results</h3>
+        <div class="rank-display" style="background: ${rankColor};">
+          Score: ${correct}/${total}
+        </div>
+        <div class="rank-display" style="background: ${rankColor};">
+          Rank: ${rank}
+        </div>
+        <p style="margin-top: 1rem;">${correct === total ? 'Perfect score! 🎉' : correct >= total * 0.7 ? 'Well done! 💪' : 'Keep practicing! 📚'}</p>
+      `;
+      
+      // Insert summary before the quiz card
+      const quizCard = document.querySelector('#moduleView .quiz-card');
+      if (quizCard && quizCard.parentNode) {
+        quizCard.parentNode.insertBefore(summaryDiv, quizCard.nextSibling);
+      }
+      
+      // Award XP based on score
+      const xpEarned = Math.floor((correct / total) * 50);
+      if (xpEarned > 0) {
+        totalXP += xpEarned;
+        updateDisplays();
+        saveState();
+        showXPGain(xpEarned, 'Exam completed');
+      }
+
+      // Hide next button
+      document.getElementById('nextBtn').classList.add('hidden');
+    }
+
+    function nextQuestion() {
+      stopTimer();
+      const m = currentModule;
+      const level = m.levels[currentLevelIndex];
+
+      if (currentQuestionIndex < level.questions.length - 1) {
+        currentQuestionIndex++;
+        loadCurrentState();
+      } else {
+        // Finished level
+        if (examMode && examAnswers.length > 0) {
+          // Show exam summary
+          showExamSummary();
+          return;
+        }
+
+        // Practice mode: continue as before
+        const moduleKey = Object.keys(modules).find(key => modules[key] === m);
+        if (!moduleProgress[moduleKey]) {
+          moduleProgress[moduleKey] = { levelsCompleted: 0, questionsAnswered: 0 };
+        }
+        
+        if (currentLevelIndex >= moduleProgress[moduleKey].levelsCompleted) {
+          moduleProgress[moduleKey].levelsCompleted = currentLevelIndex + 1;
+          totalXP += 20; // Level bonus
+          updateDisplays();
+          saveState();
+          showXPGain(20, 'Level completed');
+        }
+
+        currentQuestionIndex = 0;
+        examAnswers = []; // Reset exam answers
+        
+        if (currentLevelIndex < m.levels.length - 1) {
+          currentLevelIndex++;
+          setTimeout(() => {
+            if (!examMode) {
+              alert("Level completed! +20 XP 🎉");
+            }
+            loadCurrentState();
+          }, 500);
+        } else {
+          // Module completed
+          if (!badges.includes(m.badgeName)) {
+            badges.push(m.badgeName);
+            totalXP += 50; // Module completion bonus
+            updateDisplays();
+            saveState();
+            showXPGain(50, 'Module completed');
+            // Extra confetti for badge!
+            setTimeout(() => createConfetti(), 300);
+            setTimeout(() => createConfetti(), 600);
+          }
+          
+          setTimeout(() => {
+            if (!examMode) {
+              alert(`Module completed! You earned the "${m.badgeName}" badge 🏆`);
+            }
+            showSection('modules');
+            updateModuleProgress();
+          }, 500);
+        }
+      }
+    }
+
+    // ===== FLASHCARDS =====
+    const flashcardsData = `What is the primary goal of a 'low-cost provider' generic strategy?,"To achieve lower overall costs than rivals while appealing to a broad spectrum of customers, often by underpricing them."
+The 'broad differentiation' generic strategy involves seeking to differentiate a firm's product from rivals' in ways that appeal to a ____ spectrum of buyers.,broad
+A 'focused low-cost' strategy concentrates on a narrow buyer segment and outcompetes rivals by having _____.,lower costs
+What does a 'focused differentiation' strategy concentrate on?,"A narrow buyer segment, offering customised attributes that meet that segment's specific tastes and requirements better than rivals."
+What is the objective of a 'best-cost provider' strategy?,To give customers more value for their money by satisfying their expectations on key attributes while beating their price expectations.
+"According to Michael Porter, a firm that fails to adopt a single generic strategy and is not adding clear value to customers is described as being what?",Stuck in the Middle.
+What graphical representation illustrates the trade-off between relative cost position and buyer value (WTP)?,The Productivity Frontier.
+Under what circumstance involving competitive failure might a 'stuck in the middle' strategy work?,If rivals are similarly 'stuck in the middle' or if there is no significant competition.
+"Which strategic framework, viewed as an extension of Porter's Generic Strategies, focuses on prices to customers rather than costs to the organisation?",Bowman's Strategy Clock.
+"In Bowman's Strategy Clock, a 'no-frills' strategy combines a low price with what other characteristic?",Low perceived value.
+A 'differentiation with price premium' strategy on the Strategy Clock is used to increase what?,Profit margins.
+What is the central idea of a Blue Ocean Strategy regarding market boundaries?,That market boundaries are not fixed and can be reconstructed to unlock new demand.
+"In Blue Ocean Strategy, what are 'first-tier' non-customers?","Buyers who purchase an industry's offerings out of necessity and will leave as soon as an opportunity arises."
+The _____ framework in Blue Ocean Strategy involves asking four basic questions to create a new value curve.,ERRC (Eliminate-Reduce-Raise-Create)
+"In the ERRC framework, what question does 'Eliminate' pose?",What factors should be eliminated that the industry has taken for granted?
+"In the ERRC framework, what question does 'Create' pose?",What factors should be created that the industry has never offered?
+A PESTEL analysis is a framework for analysing which environment relevant to an organisation?,The macro-environment.
+"In a PESTEL analysis, what does the 'P' stand for?","Political factors, such as government stability, tax policy, and regulation."
+"Factors such as inflation, economic growth, and exchange rates are considered under which category of a PESTEL analysis?",Economic.
+"Demographics, cultural aspects, and health consciousness fall under the _____ category of a PESTEL analysis.",Sociocultural
+What are 'key drivers for change' in the context of a macro-environmental analysis?,Factors that are likely to have a high impact on industries and the success or failure of strategies within them.
+What is the primary purpose of scenario planning in strategic management?,To develop plausible views of the future environment to deal with high levels of uncertainty.
+"In scenario planning, the four scenarios are typically created based on opposing outcomes for two selected _____.",key drivers of change
+"What tool helps to rank stakeholders based on their importance to, and influence on, the organisation?",The stakeholder power/interest grid.
+"In Porter's Five Forces model, what are 'substitutes'?",Products or services from outside the industry that offer a similar benefit to the industry's products or services.
+The threat of new entry into an industry is low when the _____ are high.,barriers to entry
+What factor increases the power of buyers in an industry?,When buyers are concentrated or have low switching costs.
+Supplier power is likely to be high when suppliers provide a _____ or rare input.,specialist
+What term describes the stage in an industry's lifecycle characterised by high expansion and high competition after an innovation has paid off?,Growth.
+"In which stage of the industry lifecycle is competitive pressure high, with a focus on exploitation and incremental innovations?",Maturity.
+What is the 'value stick' used to analyse in competitive strategy?,"The components of value creation: Willingness to Pay (WTP), Price, Cost, and Supplier's Opportunity Costs (SOC)."
+Competitive advantage can be defined as the gap between a customer's Willingness to Pay (WTP) and the total _____.,Supplier's Opportunity Costs (SOC)
+What are two key sources of a cost advantage for a firm pursuing a cost leadership strategy?,Economies of scale and experience curves.
+What is the risk of a firm becoming too fixed on cost reduction in a cost leadership strategy?,It may ignore buyers' interest in additional features or overlook declining buyer sensitivity to price.
+What are the key drivers of differentiation strategy?,"Product features, superior quality, convenience, and brand image."
+A primary risk of a differentiation strategy is that the cost difference against competitors becomes so high that it's hard to hold ____.,brand loyalty
+What is a 'strategic group' in competitor analysis?,A cluster of companies within an industry that follow similar strategies or compete on the same key strategic dimensions.
+What do 'mobility barriers' prevent in the context of strategic groups?,They prevent firms from easily moving from one strategic group to a more profitable one.
+What are Key Success Factors (KSFs)?,The most critical determinants of competitive advantage that arise from both demand-side expectations and supply-side constraints within an industry.
+What is the difference between Key Success Factors (KSFs) and Minimum Success Factors (MSFs)?,"KSFs distinguish companies positively (making some better than others), while MSFs distinguish negatively (causing some to disappear if not met)."
+The Resource-Based View (RBV) of the firm assumes that firms are heterogenous bundles of resources and that some resources are not perfectly _____ across firms.,mobile
+What are the four criteria of the VRIO framework used to evaluate a firm's resources and capabilities?,"Valuable, Rare, Inimitable, and Organized to capture value."
+"In the VRIO framework, what does 'Inimitable' mean?",The resource or capability is difficult and costly for other firms to copy or substitute.
+What is 'causal ambiguity' as a barrier to imitation?,It's when the link between a firm's resources/capabilities and its performance is unclear or difficult to prove.
+What are 'core competencies' according to Hamel & Prahalad?,"The collective learning in an organisation, especially how to coordinate diverse production skills and integrate multiple streams of technology."
+What are 'dynamic capabilities'?,"The firm's processes to integrate, reconfigure, gain, and release resources to match and create market change."
+What are the three types of dynamic capabilities identified by Teece et al.?,"Sensing, Seizing, and Reconfiguring."
+"The dynamic capability of 'Sensing' involves scanning, searching, and exploring across markets and technologies to identify new _____.",opportunities and threats
+What does the 'Reconfiguring' dynamic capability involve?,"The renewal and reconfiguration of a firm's capabilities, assets, and structures to adapt to change."
+"In the context of acquiring resources, what is the 'winner's curse'?","A situation where a party overestimates the value of an object, bids higher than competitors, and is more likely to win it at an inflated price."
+What concept explains that strategic asset stocks like reputation are accumulated over time and cannot be built instantly?,Time compression diseconomies.
+What does an 'industry value chain' represent?,"The series of industries, each adding value, that are involved in producing goods and services, from raw materials to the end customer."
+What is a 'profit pool analysis' used for?,"To analyse the total profits earned in an industry at all points along the value chain, showing the structure of profitability."
+_____ integration is when a firm takes over ownership and control of its own inputs (suppliers).,Backward
+What is a major risk of vertical integration?,"It ties more assets to the same value chain, increasing market-specific risk and decreasing flexibility."
+What is 'disintermediation' in the context of a value chain?,"Bypassing a link in the value chain, where a firm retains the value of a supplier or customer without performing its function."
+"A company's value chain is a succession of activities, functions, or departments, each of which must provide _____.",value
+What is the key danger of outsourcing activities?,"A firm may inadvertently outsource its core activities, which are critical to its strategy and competitive advantage."
+What defines a 'platform' business model?,"It enables direct interactions between affiliated customers, who control the key terms of the transactions."
+How does a 'pipeline' business model differ from a 'platform' model in its operational focus?,"A pipeline focuses on internal optimisation, whereas a platform focuses on facilitating external interactions."
+What type of network effect occurs when the value of a service to a user increases with the number of other users of the same service?,Direct network effect (or same-side network effect).
+An operating system that becomes more valuable to users as more developers create apps for it is an example of a(n) _____ network effect.,indirect (or cross-side)
+What is a 'Winner-Take-All' (WTA) scenario in a platform market?,A situation where strong network effects lead to one platform dominating and capturing most of the market.
+What is 'multi-homing' in the context of platforms?,"When a user is active on multiple platforms, which can weaken network effects and reduce switching costs."
+"When deciding which side of a multi-sided platform to subsidise, which side should typically receive the subsidy?","The side that generates greater marginal value for the other side, is more price-sensitive, or is less likely to multi-home."
+What are the three dimensions of competition in a platform business model?,"Platform vs. Platform, Platform vs. Complement, and Complement vs. Complement."
+What term describes a group of firms producing products and services that are essentially the same?,An industry.
+The phenomenon where overconfidence or disappointment leads to overestimating short-term tech impact and underestimating long-term implications is called _____.,micro-myopia
+What is the key criterion for defining industry boundaries in a Porter's Five Forces analysis?,"Substitutability, from both the demand and supply sides."
+"What term did Andrew Grove of Intel popularise to describe the mindset that success breeds complacency, which in turn breeds failure?",Only the paranoid survive.
+"According to Richard Rumelt, what are the three elements of a 'good' strategy?","A diagnosis, a guiding policy, and coherent actions."
+Distinguish between business strategy and corporate strategy.,"Business strategy is about how to compete in a specific market, while corporate strategy is about where to compete, determining the overall scope of the organisation."
+What is an emergent strategy?,"A realised strategy that emerges over time as a result of a series of decisions, often in response to unforeseen circumstances, rather than being explicitly intended from the start."
+What is the primary difference between operational effectiveness and strategy?,"Operational effectiveness is about performing similar activities better than rivals, while strategy is about performing different activities or similar activities in different ways."
+What does the 'E' in the PESTEL framework represent?,"Environmental factors, such as climate change, pollution, and waste disposal regulations."
+"The 'shake out' phase, where the number of competitors begins to decrease through consolidation, occurs between which two stages of the industry lifecycle?",Between the growth and maturity stages.`;
+
+    function parseFlashcardsCSV(csvText) {
+      const flashcards = [];
+      const lines = csvText.split('\n');
+      
+      for (let line of lines) {
+        line = line.trim();
+        if (!line) continue;
+        
+        // Parse CSV line handling quoted fields
+        let question = '';
+        let answer = '';
+        let inQuotes = false;
+        let currentField = '';
+        
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          
+          if (char === '"') {
+            if (inQuotes && line[i + 1] === '"') {
+              // Escaped quote
+              currentField += '"';
+              i++;
+            } else {
+              // Toggle quote state
+              inQuotes = !inQuotes;
+            }
+          } else if (char === ',' && !inQuotes) {
+            // Field separator
+            if (!question) {
+              question = currentField.trim();
+              currentField = '';
+            }
+          } else {
+            currentField += char;
+          }
+        }
+        
+        // Last field is the answer
+        answer = currentField.trim();
+        
+        if (question && answer) {
+          flashcards.push({ question, answer });
+        }
+      }
+      
+      return flashcards;
+    }
+
+    // Flashcard state
+    let allFlashcards = [];
+    let currentFlashcardIndex = 0;
+    let currentFilter = 'all';
+    let flashcardProgress = {}; // { index: 'good' | 'bad' | undefined }
+
+    function loadFlashcardProgress() {
+      const saved = localStorage.getItem('flashcardProgress');
+      if (saved) {
+        try {
+          flashcardProgress = JSON.parse(saved);
+        } catch (e) {
+          console.error('Failed to parse flashcard progress, resetting:', e);
+          localStorage.removeItem('flashcardProgress');
+          flashcardProgress = {};
+        }
+      }
+    }
+
+    function saveFlashcardProgress() {
+      localStorage.setItem('flashcardProgress', JSON.stringify(flashcardProgress));
+    }
+
+    function getFilteredFlashcards() {
+      if (currentFilter === 'review') {
+        return allFlashcards.filter((_, index) => flashcardProgress[index] === 'bad');
+      }
+      return allFlashcards;
+    }
+
+    function updateFlashcardCounts() {
+      const total = allFlashcards.length;
+      const toReview = Object.values(flashcardProgress).filter(status => status === 'bad').length;
+      const answered = Object.values(flashcardProgress).filter(status => status === 'good').length;
+
+      const countEl = document.getElementById('flashcardCount');
+      const reviewEl = document.getElementById('toReviewCount');
+      const answeredEl = document.getElementById('answeredCount');
+
+      if (countEl) countEl.textContent = total;
+      if (reviewEl) reviewEl.textContent = toReview;
+      if (answeredEl) answeredEl.textContent = answered;
+    }
+
+    function loadFlashcards() {
+      allFlashcards = parseFlashcardsCSV(flashcardsData);
+      loadFlashcardProgress();
+      updateFlashcardCounts();
+      
+      // Reset to first card when loading
+      currentFlashcardIndex = 0;
+      displayCurrentFlashcard();
+    }
+
+    function displayCurrentFlashcard() {
+      const filtered = getFilteredFlashcards();
+      
+      if (filtered.length === 0) {
+        document.getElementById('flashcardQuestion').textContent = 'No flashcards available';
+        document.getElementById('flashcardAnswer').textContent = 'Try changing the filter or reset progress.';
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').disabled = true;
+        return;
+      }
+
+      // Ensure index is within bounds
+      if (currentFlashcardIndex >= filtered.length) {
+        currentFlashcardIndex = filtered.length - 1;
+      }
+      if (currentFlashcardIndex < 0) {
+        currentFlashcardIndex = 0;
+      }
+
+      const card = filtered[currentFlashcardIndex];
+      const originalIndex = allFlashcards.indexOf(card);
+      const total = filtered.length;
+      const current = currentFlashcardIndex + 1;
+
+      // Update display
+      document.getElementById('flashcardQuestion').textContent = card.question;
+      document.getElementById('flashcardAnswer').textContent = card.answer;
+      document.getElementById('flashcardNumber').textContent = `${current} / ${total}`;
+      document.getElementById('flashcardNumberBack').textContent = `${current} / ${total}`;
+
+      // Reset card to front
+      const studyCard = document.getElementById('flashcardStudyCard');
+      studyCard.classList.remove('flipped');
+
+      // Update navigation buttons
+      document.getElementById('prevBtn').disabled = currentFlashcardIndex === 0;
+      document.getElementById('nextBtn').disabled = currentFlashcardIndex === filtered.length - 1;
+
+      // Update filter button states
+      document.getElementById('filterAll').style.background = currentFilter === 'all' ? 'var(--accent)' : 'var(--bg-card)';
+      document.getElementById('filterAll').style.color = currentFilter === 'all' ? 'white' : 'var(--text-secondary)';
+      document.getElementById('filterReview').style.background = currentFilter === 'review' ? 'var(--danger)' : 'var(--bg-card)';
+      document.getElementById('filterReview').style.color = currentFilter === 'review' ? 'white' : 'var(--text-secondary)';
+    }
+
+    function flipStudyCard() {
+      const studyCard = document.getElementById('flashcardStudyCard');
+      studyCard.classList.toggle('flipped');
+    }
+
+    function nextFlashcard() {
+      const filtered = getFilteredFlashcards();
+      if (currentFlashcardIndex < filtered.length - 1) {
+        currentFlashcardIndex++;
+        displayCurrentFlashcard();
+      }
+    }
+
+    function previousFlashcard() {
+      if (currentFlashcardIndex > 0) {
+        currentFlashcardIndex--;
+        displayCurrentFlashcard();
+      }
+    }
+
+    function markFlashcardAnswer(status, event) {
+      if (event) {
+        event.stopPropagation();
+      }
+
+      const filtered = getFilteredFlashcards();
+      const card = filtered[currentFlashcardIndex];
+      const originalIndex = allFlashcards.indexOf(card);
+
+      flashcardProgress[originalIndex] = status;
+      saveFlashcardProgress();
+      updateFlashcardCounts();
+
+      // Auto-advance to next card after a short delay
+      setTimeout(() => {
+        if (currentFlashcardIndex < filtered.length - 1) {
+          nextFlashcard();
+        } else if (currentFilter === 'review' && getFilteredFlashcards().length > 0) {
+          // If we're in review mode and there are more cards, reset to first
+          currentFlashcardIndex = 0;
+          displayCurrentFlashcard();
+        }
+      }, 300);
+    }
+
+    function filterFlashcards(filter) {
+      currentFilter = filter;
+      currentFlashcardIndex = 0;
+      displayCurrentFlashcard();
+    }
+
+    function resetFlashcardProgress() {
+      if (confirm('Are you sure you want to reset all flashcard progress? This will clear all "Good Answer" and "To Review" marks.')) {
+        flashcardProgress = {};
+        saveFlashcardProgress();
+        updateFlashcardCounts();
+        currentFlashcardIndex = 0;
+        displayCurrentFlashcard();
+      }
+    }
+
+    // Keyboard navigation for flashcards
+    document.addEventListener('keydown', function(e) {
+      const flashcardsSection = document.getElementById('flashcards');
+      if (flashcardsSection && flashcardsSection.classList.contains('active')) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          previousFlashcard();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          nextFlashcard();
+        } else if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          flipStudyCard();
+        }
+      }
+    });
+
+    // Initialize
+    loadState();
+    updateModuleProgress();
+  </script>
+</body>
+</html>
