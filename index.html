@@ -1238,7 +1238,7 @@
           </div>
           <div class="feature-card">
             <h4>🎮 Modules</h4>
-            <p>Four main modules: Macro & Trends, Industry Battles, Firm Strategy, and Platforms & Ecosystems. Each with 3 levels.</p>
+            <p>Five main modules: Strategy Fundamentals, Macro & Trends, Industry Battles, Firm Strategy, and Platforms & Ecosystems. Each with multiple levels covering key frameworks.</p>
           </div>
           <div class="feature-card">
             <h4>📖 Glossary</h4>
@@ -1264,6 +1264,7 @@
           <strong>Badges:</strong> Unlock special badges when you complete each module:
         </p>
         <ul>
+          <li>🏅 <strong>Strategic Thinker</strong> - Complete Strategy Fundamentals</li>
           <li>🏅 <strong>Trend Watcher</strong> - Complete Macro & Trends</li>
           <li>🏅 <strong>Industry Analyst</strong> - Complete Industry Battles</li>
           <li>🏅 <strong>Strategy Architect</strong> - Complete Firm Strategy</li>
@@ -1319,6 +1320,19 @@
         <p>Choose a module to start your learning journey. Each module has 3 levels with lessons, cases, and quizzes.</p>
       </div>
       <div class="tile-grid">
+        <div class="tile" onclick="startModule('fundamentals')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startModule('fundamentals');}">
+          <h3>Strategy Fundamentals</h3>
+          <span class="badge">Formulation</span>
+          <span class="badge">Implementation</span>
+          <p>Strategic management process, formulation vs implementation, strategy vs operational effectiveness.</p>
+          <p><small>3 levels • ~60–100 XP</small></p>
+          <div id="fundamentals-progress" class="module-completion" style="display: none;">
+            <h4>Progress</h4>
+            <div class="completion-bar">
+              <div class="completion-fill" id="fundamentals-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
         <div class="tile" onclick="startModule('macro')">
           <h3>Macro & Trends</h3>
           <span class="badge">PESTEL</span>
@@ -1386,32 +1400,40 @@
       </div>
       
       <div class="course-map-card">
-        <h3>Session 1 – What is Strategy?</h3>
-        <p><strong>Main frameworks:</strong> Fit, competitive advantage, activity systems, value stick, generic strategies</p>
+        <h3>Session 0 – Strategy Fundamentals & Process</h3>
+        <p><strong>Main frameworks:</strong> Strategic management process, formulation vs implementation, strategy vs operational effectiveness, competitive advantage</p>
+        <div style="margin-top: 1rem;">
+          <button onclick="startModule('fundamentals')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Strategy Fundamentals → All Levels</button>
+        </div>
+      </div>
+
+      <div class="course-map-card">
+        <h3>Session 1 – What is Strategy? Value Creation & Generic Strategies</h3>
+        <p><strong>Main frameworks:</strong> Value Stick (SOC → Cost → Price → WTP), generic strategies (cost leadership, differentiation, focus), hybrid strategies, stuck in the middle</p>
         <div style="margin-top: 1rem;">
           <button onclick="startModule('firm')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Firm Strategy → Level 1</button>
         </div>
       </div>
 
       <div class="course-map-card">
-        <h3>Session 2 – Industry Analysis</h3>
-        <p><strong>Main frameworks:</strong> Porter's 5 Forces, complements, profit pool, industry structure</p>
+        <h3>Session 2 – Industry Analysis & Competitive Dynamics</h3>
+        <p><strong>Main frameworks:</strong> Porter's 5 Forces, complements, profit pool, strategic groups, mobility barriers, Key Success Factors (KSFs)</p>
         <div style="margin-top: 1rem;">
-          <button onclick="startModule('industry')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Industry Battles → All Levels</button>
+          <button onclick="startModule('industry')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Industry Battles → Levels 1, 2, 4</button>
         </div>
       </div>
 
       <div class="course-map-card">
         <h3>Session 3 – Resources & Capabilities</h3>
-        <p><strong>Main frameworks:</strong> Resource-based View (RBV), VRIO, dynamic capabilities (sensing, seizing, reconfiguring)</p>
+        <p><strong>Main frameworks:</strong> Resource-based View (RBV), VRIO framework, core competences, dynamic capabilities (sensing, seizing, reconfiguring), Buy vs Build, Value Chain Analysis</p>
         <div style="margin-top: 1rem;">
-          <button onclick="startModule('firm')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Firm Strategy → Levels 2 & 3</button>
+          <button onclick="startModule('firm')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Firm Strategy → Levels 2, 3, 4, 5</button>
         </div>
       </div>
 
       <div class="course-map-card">
-        <h3>Session 4 – Blue Ocean & Positioning</h3>
-        <p><strong>Main frameworks:</strong> Blue Ocean Strategy, value curve, ERRC grid (Eliminate, Reduce, Raise, Create)</p>
+        <h3>Session 4 – Blue Ocean Strategy & Positioning</h3>
+        <p><strong>Main frameworks:</strong> Blue Ocean Strategy, value curve, ERRC grid (Eliminate, Reduce, Raise, Create), Three Tiers of Non-Customers, simultaneous differentiation and low cost</p>
         <div style="margin-top: 1rem;">
           <button onclick="startModule('industry')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Industry Battles → Level 3 (Yellow Tail)</button>
         </div>
@@ -1419,15 +1441,15 @@
 
       <div class="course-map-card">
         <h3>Session 5 – Platforms & Network Effects</h3>
-        <p><strong>Main frameworks:</strong> Platform business models, direct vs cross-side network effects, tipping points, winner-take-all dynamics</p>
+        <p><strong>Main frameworks:</strong> Platform vs Pipeline business models, direct vs cross-side network effects, tipping points, winner-take-all dynamics, three modes of platform competition</p>
         <div style="margin-top: 1rem;">
           <button onclick="startModule('platforms')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Platforms & Ecosystems → All Levels</button>
         </div>
       </div>
 
       <div class="course-map-card">
-        <h3>Session 6 – Macro Environment</h3>
-        <p><strong>Main frameworks:</strong> PESTEL analysis, key drivers of change, stakeholder analysis, scenario planning</p>
+        <h3>Session 6 – Macro Environment & Uncertainty</h3>
+        <p><strong>Main frameworks:</strong> PESTEL analysis (identifying key drivers of change), stakeholder analysis (coalitions, pressure), scenario planning (dealing with high uncertainty, multiple plausible futures)</p>
         <div style="margin-top: 1rem;">
           <button onclick="startModule('macro')" style="margin-right: 0.5rem; margin-top: 0;">🔗 Macro & Trends → All Levels</button>
         </div>
@@ -1836,13 +1858,142 @@
 
     // ===== MODULE DEFINITIONS =====
     const modules = {
+      fundamentals: {
+        title: "Strategy Fundamentals & Process",
+        badgeName: "Strategic Thinker",
+        levels: [
+          {
+            lessonTitle: "Level 1 – Strategic Management Process",
+            lessonText: "Strategic management links the external environment (threats and opportunities) with internal capabilities (strengths and weaknesses) to formulate strategy. Strategy aims at achieving competitive advantage and superior performance relative to rivals. The process involves analyzing where to compete (which markets, segments, geographies) and how to compete (what unique value proposition, what activity system). Competitive advantage is measured as the difference between customers' willingness to pay (WTP) and suppliers' opportunity cost (SOC), relative to competitors.",
+            caseTitle: "Case: Apple's Strategic Positioning",
+            caseText: "Apple identified opportunities in premium consumer electronics and computing, leveraging its design capabilities, ecosystem integration, and brand strength. By focusing on high WTP segments and maintaining tight control over hardware-software integration, Apple achieved sustained competitive advantage and superior profitability compared to rivals in the smartphone and personal computing industries.",
+            questions: [
+              {
+                text: "According to the strategic management process, strategy formulation requires linking:",
+                options: [
+                  "Only internal capabilities, ignoring the environment",
+                  "Only external opportunities, ignoring internal strengths",
+                  "Environment (threats & opportunities) and Capabilities (strengths & weaknesses)",
+                  "Only financial metrics and accounting data"
+                ],
+                correctIndex: 2,
+                explanation: "Strategy formulation requires analyzing both the external environment (threats and opportunities) and internal capabilities (strengths and weaknesses) to determine where and how to compete."
+              },
+              {
+                text: "The primary goal of strategy is to achieve:",
+                options: [
+                  "Operational efficiency only",
+                  "Competitive advantage and superior performance relative to rivals",
+                  "Maximum market share regardless of profitability",
+                  "Lowest possible costs in all activities"
+                ],
+                correctIndex: 1,
+                explanation: "Strategy aims at competitive advantage and superior performance relative to rivals, not just efficiency or market share alone."
+              },
+              {
+                text: "Competitive advantage can be measured as:",
+                options: [
+                  "Total revenue minus total costs",
+                  "The difference between WTP and SOC, relative to competitors",
+                  "Market share percentage",
+                  "Number of employees"
+                ],
+                correctIndex: 1,
+                explanation: "Competitive advantage is measured as the difference between customers' willingness to pay (WTP) and suppliers' opportunity cost (SOC), relative to rivals. A larger gap indicates stronger competitive advantage."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 2 – Formulation vs Implementation",
+            lessonText: "Strategy has two critical phases: Formulation and Implementation. Formulation answers 'where to compete' (markets, segments, geographies) and 'how to compete' (value proposition, activity system, positioning). Implementation involves executing the strategy through organizational levers: Organization structure (how work is divided and coordinated), Systems & processes (information, planning, control systems), and People & rewards (hiring, development, incentives). Strategic Leadership plays a crucial role in aligning formulation and implementation, ensuring the organization can execute the chosen strategy effectively.",
+            caseTitle: "Case: Netflix's Transformation",
+            caseText: "Netflix formulated a strategy to shift from DVD-by-mail to streaming, then to original content production. Implementation required restructuring the organization (new content teams, technology infrastructure), new systems (recommendation algorithms, content analytics), and different people and rewards (content creators, data scientists, new incentive structures). Leadership alignment was critical to coordinate these changes.",
+            questions: [
+              {
+                text: "Strategy formulation primarily addresses:",
+                options: [
+                  "Only how to organize the company structure",
+                  "Where to compete and how to compete",
+                  "Only employee compensation plans",
+                  "Only day-to-day operations"
+                ],
+                correctIndex: 1,
+                explanation: "Formulation addresses where to compete (markets, segments) and how to compete (value proposition, positioning, activity system)."
+              },
+              {
+                text: "The three main implementation levers are:",
+                options: [
+                  "Marketing, Sales, and Finance only",
+                  "Organization structure, Systems & processes, and People & rewards",
+                  "Only technology and IT systems",
+                  "Only financial incentives"
+                ],
+                correctIndex: 1,
+                explanation: "Implementation involves three key levers: Organization structure (division of work), Systems & processes (information and control), and People & rewards (talent and incentives)."
+              },
+              {
+                text: "Strategic Leadership's role in strategy is to:",
+                options: [
+                  "Only formulate strategy without considering implementation",
+                  "Align formulation and implementation, ensuring the organization can execute the chosen strategy",
+                  "Focus only on day-to-day operations",
+                  "Ignore organizational capabilities"
+                ],
+                correctIndex: 1,
+                explanation: "Strategic Leadership must align formulation and implementation, ensuring the organization has the structure, systems, people, and culture to execute the strategy effectively."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 3 – Strategy vs Operational Effectiveness",
+            lessonText: "A critical distinction: Strategy is NOT the same as Operational Effectiveness. Strategy involves long-term, proactive positioning that creates unique value through trade-offs. It requires choosing what NOT to do, creating a distinctive activity system, and making commitments that are hard to reverse. Operational Effectiveness (OE) focuses on short-term efficiency, best practices, benchmarking, and reactive improvements. While OE is necessary, it alone does not create competitive advantage because best practices can be copied. Strategy creates sustainable advantage through unique positioning and trade-offs that competitors cannot easily replicate. A firm can be operationally effective but strategically weak if it lacks a clear, unique positioning.",
+            caseTitle: "Case: Southwest Airlines vs Traditional Airlines",
+            caseText: "Traditional airlines tried to be all things to all customers (full service, multiple aircraft types, hub-and-spoke, meals, seat assignments). Southwest chose a clear strategy: low-cost, point-to-point, single aircraft type, no frills. This required trade-offs: Southwest could not serve business travelers who wanted premium service and flexibility. But this strategic positioning, combined with operational effectiveness in fast turnarounds, created sustained advantage. Traditional airlines were operationally effective but strategically 'stuck in the middle' without clear positioning.",
+            questions: [
+              {
+                text: "Strategy differs from Operational Effectiveness primarily because:",
+                options: [
+                  "Strategy is about short-term efficiency only",
+                  "Strategy involves long-term, proactive positioning with unique value and trade-offs, while OE focuses on efficiency and best practices",
+                  "They are exactly the same thing",
+                  "Strategy ignores efficiency completely"
+                ],
+                correctIndex: 1,
+                explanation: "Strategy is long-term, proactive, and involves unique positioning with trade-offs. Operational Effectiveness is about efficiency and best practices that can be copied."
+              },
+              {
+                text: "Why does Operational Effectiveness alone not create sustained competitive advantage?",
+                options: [
+                  "Because it is always expensive",
+                  "Because best practices can be copied by competitors, eliminating the advantage",
+                  "Because it requires no trade-offs",
+                  "Because it focuses only on cost reduction"
+                ],
+                correctIndex: 1,
+                explanation: "Best practices in operational effectiveness can be imitated by competitors, so they create temporary advantages at best. Strategy creates sustainable advantage through unique positioning and trade-offs."
+              },
+              {
+                text: "A firm that tries to serve all customer segments with all features, matching competitors on every dimension, is most likely:",
+                options: [
+                  "Following a clear differentiation strategy",
+                  "Following a clear cost leadership strategy",
+                  "Lacking strategic positioning and likely 'stuck in the middle'",
+                  "Creating unique value through trade-offs"
+                ],
+                correctIndex: 2,
+                explanation: "Trying to be everything to everyone without clear trade-offs typically results in being 'stuck in the middle' - lacking clear strategic positioning and unable to achieve superior performance."
+              }
+            ]
+          }
+        ]
+      },
       macro: {
         title: "Macro & Trends – PESTEL and Scenarios",
         badgeName: "Trend Watcher",
         levels: [
           {
             lessonTitle: "Level 1 – Reading the Macroenvironment with PESTEL",
-            lessonText: "Macroenvironment analysis scans Political, Economic, Sociocultural, Technological, Environmental and Legal forces around the firm. A PESTEL exercise is often the first step: it helps identify major trends or key drivers of change that will shape industries and markets.",
+            lessonText: "Macroenvironment analysis scans Political, Economic, Sociocultural, Technological, Environmental and Legal forces around the firm. The main purpose of PESTEL analysis is to identify Key Drivers of Change - the most important trends and forces that will shape industries and markets. These key drivers then feed into scenario planning and deeper strategic analysis. PESTEL is not just a checklist; it's a tool to systematically scan the environment and identify which forces matter most for strategy. Key drivers are those PESTEL forces that are: (1) Uncertain (could evolve in different ways), (2) Impactful (will significantly affect the industry), (3) Relevant (matter for the firm's strategy).",
             caseTitle: "Case: Tesla and the EU 2035 Ban on New ICE Cars",
             caseText: "In the EU, new CO2-emitting petrol and diesel cars are scheduled to be phased out from 2035. This regulatory change pushes carmakers towards electric vehicles and reshapes investment decisions for incumbents and EV players like Tesla.",
             questions: [
@@ -1872,62 +2023,94 @@
           },
           {
             lessonTitle: "Level 2 – Stakeholders and Macro Shocks",
-            lessonText: "Macro-level changes often arrive through regulation, social movements or technological shifts and then transmit through stakeholders. The course distinguishes exogenous macro changes from endogenous competitive moves. Stakeholder analysis helps map who gains, who loses and whose support you need.",
+            lessonText: "Macro-level changes often arrive through regulation, social movements or technological shifts and then transmit through stakeholders. Stakeholder Analysis is a systematic tool to identify and understand the interests, power, and influence of groups that affect or are affected by the firm's strategy. Key stakeholders include customers, employees, suppliers, regulators, NGOs, media, communities, and investors. Macro PESTEL forces translate into stakeholder pressures: for example, environmental regulations (E) create pressure from regulators and NGOs, while sociocultural trends (S) influence customer expectations and employee values. A critical insight is coalition effects: stakeholders can form alliances that amplify pressure (e.g., 'the enemy of my enemy is my friend' - NGOs + media + regulators can ally to multiply pressure on firms). Understanding these coalitions is essential for strategic adaptation.",
             caseTitle: "Case: Glovo and Spain's Rider Law",
-            caseText: "In Spain, the 'Rider Law' pushed platforms like Glovo to classify many couriers as employees rather than freelancers. This legal change affects labor costs, flexibility, and relationships with workers, regulators, customers and investors.",
+            caseText: "In Spain, the 'Rider Law' pushed platforms like Glovo to classify many couriers as employees rather than freelancers. This legal change (Political/Legal PESTEL dimension) affected multiple stakeholders: workers (gained employment rights but lost flexibility), regulators (enforcing labor law), customers (concerned about service reliability and fairness), and investors (worried about cost increases). NGOs and labor unions formed a coalition with media coverage, amplifying pressure on platforms. Glovo had to adapt its business model while managing these competing stakeholder interests.",
             questions: [
               {
-                text: "Spain's Rider Law for delivery platforms is best described as:",
+                text: "Stakeholder Analysis is best defined as:",
                 options: [
-                  "A micro move by a competitor",
-                  "An exogenous macroenvironment shock (Political/Legal)",
-                  "An internal organizational change",
-                  "A technological innovation by Glovo"
+                  "A tool to identify only shareholders and investors",
+                  "A systematic approach to identify and understand the interests, power, and influence of groups that affect or are affected by the firm's strategy",
+                  "Only analyzing customer preferences",
+                  "A financial analysis tool"
                 ],
                 correctIndex: 1,
-                explanation: "It is a Political/Legal change imposed at the country level – a macro shock affecting all delivery platforms operating there."
+                explanation: "Stakeholder Analysis systematically maps who gains, who loses, whose support is needed, and how stakeholders' interests and power interact."
+              },
+              {
+                text: "How do macro PESTEL forces translate into stakeholder pressures?",
+                options: [
+                  "PESTEL forces are completely separate from stakeholders",
+                  "PESTEL forces manifest through stakeholder actions and expectations (e.g., environmental regulations create pressure from regulators and NGOs)",
+                  "Only through financial markets",
+                  "Only through internal employees"
+                ],
+                correctIndex: 1,
+                explanation: "PESTEL forces translate into stakeholder pressures: environmental regulations (E) create pressure from regulators and NGOs, sociocultural trends (S) influence customers and employees, technological changes (T) affect suppliers and competitors."
+              },
+              {
+                text: "The 'enemy of my enemy is my friend' dynamic in stakeholder analysis refers to:",
+                options: [
+                  "Stakeholders always having aligned interests",
+                  "Stakeholders forming coalitions (e.g., NGOs + media + regulators) that amplify pressure on the firm",
+                  "All stakeholders being independent and static",
+                  "Only shareholders and employees working together"
+                ],
+                correctIndex: 1,
+                explanation: "Stakeholders can form coalitions that multiply their influence. For example, NGOs, media, and regulators can ally to create stronger pressure than any single group could achieve alone."
               },
               {
                 text: "When Glovo has to adapt to the Rider Law, which stakeholder groups become especially important in the analysis?",
                 options: [
                   "Only shareholders",
                   "Only app developers",
-                  "Workers, regulators and customers concerned with working conditions",
+                  "Workers, regulators, customers, NGOs, and investors - all with potentially conflicting interests",
                   "Only foreign competitors"
                 ],
                 correctIndex: 2,
-                explanation: "Stakeholder analysis would focus on workers (couriers), regulators, and customers who care about fairness and reliability."
-              },
-              {
-                text: "In stakeholder analysis, why can the enemy-of-my-enemy-is-my-friend dynamic complicate strategy execution?",
-                options: [
-                  "Because it reduces the diversity of stakeholder interests.",
-                  "Because stakeholders may form coalitions that amplify pressure on the firm.",
-                  "Because investors and employees always have aligned interests.",
-                  "Because regulators are structurally neutral actors.",
-                  "Because stakeholders are independent and static."
-                ],
-                correctIndex: 1,
-                explanation: "The slides stress interdependence: stakeholders can ally (e.g., NGOs + media + regulators) to multiply pressure on the firm. These coalitions increase influence and make strategic adaptation harder."
+                explanation: "Stakeholder analysis must consider all affected groups: workers (rights vs flexibility), regulators (enforcement), customers (service quality), NGOs (social justice), and investors (profitability)."
               }
             ]
           },
           {
-            lessonTitle: "Level 3 – Dealing with Uncertainty: Scenarios",
-            lessonText: "The course stresses that some trends are more predictable than others (e.g. ageing populations) while others are highly uncertain (e.g. oil prices). Scenario planning is used when there is high uncertainty about how key drivers of change will evolve, so you build a few plausible futures instead of one forecast.",
+            lessonTitle: "Level 3 – Dealing with Uncertainty: Scenario Planning",
+            lessonText: "Some trends are more predictable (e.g., ageing populations, urbanization) while others are highly uncertain (e.g., oil prices, regulatory changes, technological breakthroughs). Scenario Planning is the tool for dealing with high uncertainty and multiple plausible futures. It is used when there is high uncertainty about how key drivers of change will evolve. The process involves: (1) Identifying key drivers of change from PESTEL analysis - the 2-4 most important uncertain variables that will shape the future, (2) Building 2-3 coherent scenarios - plausible, internally consistent futures that explore different combinations of how key drivers might evolve, (3) Testing strategies across scenarios - ensuring the strategy is robust (works reasonably well) or flexible (can adapt) across different futures. Scenarios are not predictions; they are tools to think through uncertainty and prepare for different possible futures.",
             caseTitle: "Case: Electric Vehicles and Uncertain Climate Policy",
-            caseText: "For carmakers and energy companies, the future of EV adoption and climate regulation is uncertain. Governments may double down on strict bans on internal combustion engines or soften timelines. Strategy must be robust across these scenarios.",
+            caseText: "For carmakers and energy companies, the future of EV adoption and climate regulation is highly uncertain. Key drivers include: regulatory stringency (strict bans vs gradual transition), infrastructure support (government investment in charging networks), battery technology costs, and consumer adoption rates. Scenarios might include: (1) 'Green Acceleration' - strict regulations, strong infrastructure support, rapid adoption, (2) 'Gradual Transition' - moderate regulations, mixed infrastructure, slower adoption, (3) 'Policy Reversal' - relaxed regulations, weak infrastructure, slow adoption. Strategy must be robust across these scenarios - for example, investing in EV capabilities while maintaining flexibility to adapt if scenarios change.",
             questions: [
               {
-                text: "In the course, scenario planning is recommended mainly when:",
+                text: "Scenario Planning is the tool for:",
                 options: [
-                  "The environment is perfectly stable and predictable",
-                  "There is high uncertainty and several plausible futures driven by a few key variables",
-                  "We already know exactly which competitor will win",
-                  "The firm has no data on its customers"
+                  "Predicting the exact future with certainty",
+                  "Dealing with high uncertainty and multiple plausible futures",
+                  "Analyzing only current competitors",
+                  "Forecasting quarterly earnings"
                 ],
                 correctIndex: 1,
-                explanation: "Scenarios are used to explore futures when uncertainty is high: you identify key drivers and build a small set of coherent, plausible futures."
+                explanation: "Scenario Planning is specifically designed for situations with high uncertainty where multiple plausible futures exist, not for precise predictions."
+              },
+              {
+                text: "The first step in scenario planning is to:",
+                options: [
+                  "Build detailed financial models",
+                  "Identify key drivers of change from PESTEL analysis - the 2-4 most important uncertain variables",
+                  "Copy competitors' strategies",
+                  "Ignore macro trends"
+                ],
+                correctIndex: 1,
+                explanation: "Scenario planning starts by identifying key drivers of change - the most important uncertain variables that will shape different futures. These come from PESTEL analysis."
+              },
+              {
+                text: "Scenarios should be:",
+                options: [
+                  "Predictions of the exact future",
+                  "Coherent, plausible, internally consistent futures that explore different combinations of how key drivers might evolve",
+                  "Random guesses about the future",
+                  "Only optimistic forecasts"
+                ],
+                correctIndex: 1,
+                explanation: "Scenarios must be coherent (internally consistent), plausible (realistic), and explore different combinations of how key drivers might evolve."
               },
               {
                 text: "For the EV and climate policy example, which of the following is most likely a key driver of change in a scenario exercise?",
@@ -1938,7 +2121,18 @@
                   "The number of different coffee brands in the office"
                 ],
                 correctIndex: 1,
-                explanation: "Regulatory stringency and support for infrastructure are macro drivers that strongly influence EV adoption and industry structure."
+                explanation: "Regulatory stringency and infrastructure support are macro drivers that strongly influence EV adoption, industry structure, and competitive dynamics - making them ideal key drivers for scenarios."
+              },
+              {
+                text: "After building scenarios, the next step is to:",
+                options: [
+                  "Ignore them and proceed with a single strategy",
+                  "Test strategies across scenarios to ensure robustness or flexibility",
+                  "Only focus on the most optimistic scenario",
+                  "Wait for the future to happen"
+                ],
+                correctIndex: 1,
+                explanation: "Scenarios are tools for strategic thinking. After building them, you test your strategy across scenarios to see if it's robust (works in multiple futures) or if it needs to be flexible (adaptable)."
               }
             ]
           }
@@ -2007,32 +2201,128 @@
             ]
           },
           {
-            lessonTitle: "Level 3 – Wine & Blue Ocean",
-            lessonText: "The mass-market wine industry in the US used to be crowded, with many similar brands competing on complexity, vineyard prestige and tasting notes that intimidated non-experts.",
+            lessonTitle: "Level 3 – Blue Ocean Strategy: Yellow Tail and Value Innovation",
+            lessonText: "Blue Ocean Strategy creates new market space by changing the value curve through the ERRC Grid: Eliminate (factors the industry takes for granted), Reduce (factors below industry standard), Raise (factors above industry standard), Create (factors the industry has never offered). Yellow Tail targeted Three Tiers of Non-Customers: (1) Soon-to-be non-customers (on the edge of the market, ready to leave), (2) Refusing non-customers (who consciously choose alternatives), (3) Unexplored non-customers (distant markets). Blue Ocean emphasizes simultaneous pursuit of differentiation AND low cost - not choosing between them, but breaking the value-cost trade-off. This is different from competing in 'Red Oceans' (crowded, bloody competition) where firms fight over existing demand.",
             caseTitle: "Case: Yellow Tail Wine",
-            caseText: "Yellow Tail simplified wine (easy-drinking taste), made branding fun and colourful, and targeted beer drinkers and casual consumers. It reduced some traditional factors (range, complexity, prestige) and raised others (ease of choice, fun, price vs budget wine), creating a Blue Ocean.",
+            caseText: "Yellow Tail used ERRC: Eliminated (complex wine terminology, aging qualities, vineyard prestige), Reduced (wine range, price above budget wines), Raised (ease of selection, fun and adventure, simplicity), Created (easy drinking, social fun). It targeted non-customers: beer drinkers and casual consumers intimidated by traditional wine. By simultaneously lowering cost (simplified production, fun branding vs expensive prestige) and raising WTP for non-customers (approachable, fun), Yellow Tail created a Blue Ocean. This broke the trade-off - it wasn't just low-cost OR differentiated, but both for a new customer segment.",
             questions: [
+              {
+                text: "The ERRC Grid in Blue Ocean Strategy stands for:",
+                options: [
+                  "Only Eliminate and Reduce",
+                  "Eliminate, Reduce, Raise, Create - four actions to reconstruct the value curve",
+                  "Only Raise and Create",
+                  "A financial analysis tool"
+                ],
+                correctIndex: 1,
+                explanation: "ERRC: Eliminate (unnecessary factors), Reduce (below industry standard), Raise (above industry standard), Create (new factors never offered)."
+              },
+              {
+                text: "The Three Tiers of Non-Customers include:",
+                options: [
+                  "Only current customers",
+                  "Soon-to-be non-customers (on the edge), Refusing non-customers (choosing alternatives), and Unexplored non-customers (distant markets)",
+                  "Only competitors",
+                  "Only suppliers"
+                ],
+                correctIndex: 1,
+                explanation: "Three Tiers: (1) Soon-to-be (ready to leave), (2) Refusing (consciously choose alternatives), (3) Unexplored (distant markets)."
+              },
+              {
+                text: "Blue Ocean Strategy emphasizes:",
+                options: [
+                  "Choosing between low cost OR differentiation",
+                  "Simultaneous pursuit of differentiation AND low cost, breaking the value-cost trade-off",
+                  "Only competing in existing markets",
+                  "Only following industry best practices"
+                ],
+                correctIndex: 1,
+                explanation: "Blue Ocean breaks the trade-off by simultaneously pursuing differentiation and low cost for new customer segments, creating uncontested market space."
+              },
               {
                 text: "Compared to traditional wineries, Yellow Tail mainly:",
                 options: [
                   "Increased product complexity and used traditional French labels",
                   "Competed head-to-head on exactly the same factors",
-                  "Created a new strategic space by changing which factors it competes on",
+                  "Created a new strategic space by changing which factors it competes on (ERRC)",
                   "Only cut costs without changing the offer"
                 ],
                 correctIndex: 2,
-                explanation: "Yellow Tail is a Blue Ocean example: it changed the value curve instead of fighting on the same dimensions as incumbents."
+                explanation: "Yellow Tail used ERRC to change the value curve, creating a Blue Ocean by targeting non-customers with a new value proposition."
               },
               {
                 text: "Yellow Tail's primary target customers were:",
                 options: [
                   "Only expert wine drinkers and sommeliers",
-                  "Beer drinkers and casual wine consumers who were intimidated by wine",
+                  "Non-customers: beer drinkers and casual wine consumers who were intimidated by traditional wine",
                   "Only ultra-premium collectors",
                   "Only business travellers"
                 ],
                 correctIndex: 1,
-                explanation: "The strategy focused on non-experts, including beer drinkers, by making wine simple, approachable and fun."
+                explanation: "Yellow Tail targeted non-customers (beer drinkers, casual consumers) who found traditional wine intimidating, creating new demand."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 4 – Competitive Dynamics: Strategic Groups and Key Success Factors",
+            lessonText: "Within industries, firms can be grouped into Strategic Groups - clusters of firms following similar strategies along strategic dimensions (innovation intensity, economies of scale, scope, vertical integration, geographic scope, etc.). Mobility Barriers are factors that make it difficult to move from one strategic group to another (e.g., switching costs, different capabilities needed, different cost structures). Understanding strategic groups helps identify: (1) who your closest competitors are (same group), (2) potential threats from other groups, (3) opportunities to move between groups. Key Success Factors (KSFs) are the factors that determine profitability in an industry. They originate from BOTH demand side (what customers value, expect, need) AND supply side (what competitors can deliver, industry constraints, cost drivers). KSFs are not just customer preferences - they reflect the intersection of customer needs and competitive realities. Identifying KSFs helps focus strategy on what truly matters for competitive success.",
+            caseTitle: "Case: Strategic Groups in Airlines and KSFs in Streaming",
+            caseText: "Airlines: Strategic groups include (1) Full-service network carriers (hub-and-spoke, multiple aircraft, premium service), (2) Low-cost carriers (point-to-point, single aircraft, no frills), (3) Regional carriers. Mobility barriers: Full-service carriers would struggle to become low-cost (different cost structures, culture, systems). Streaming: KSFs include content library (demand: customers want variety), recommendation algorithms (demand: discovery, supply: data advantage), original content (demand: exclusivity, supply: differentiation barrier), scale (supply: cost efficiency). These KSFs come from both what customers value AND what creates competitive advantage.",
+            questions: [
+              {
+                text: "Strategic Groups are:",
+                options: [
+                  "All firms in an industry competing identically",
+                  "Clusters of firms following similar strategies along strategic dimensions (innovation, scale, integration, etc.)",
+                  "Only geographic regions",
+                  "Only suppliers"
+                ],
+                correctIndex: 1,
+                explanation: "Strategic Groups are clusters of firms with similar strategies along dimensions like innovation, scale, vertical integration, geographic scope."
+              },
+              {
+                text: "Mobility Barriers are:",
+                options: [
+                  "Factors that make it easy to move between strategic groups",
+                  "Factors that make it difficult to move from one strategic group to another",
+                  "Only financial barriers",
+                  "Only customer preferences"
+                ],
+                correctIndex: 1,
+                explanation: "Mobility Barriers (e.g., different capabilities, cost structures, switching costs) make it hard to move between strategic groups."
+              },
+              {
+                text: "Key Success Factors (KSFs) originate from:",
+                options: [
+                  "Only demand side (customer preferences)",
+                  "Only supply side (competitor capabilities)",
+                  "BOTH demand side (what customers value/need) AND supply side (what competitors can deliver, industry constraints)",
+                  "Only financial metrics"
+                ],
+                correctIndex: 2,
+                explanation: "KSFs come from both demand (customer expectations, needs) and supply (competitive realities, industry constraints, cost drivers)."
+              },
+              {
+                text: "Strategic dimensions that define groups might include:",
+                options: [
+                  "Only company size",
+                  "Innovation intensity, economies of scale, scope, vertical integration, geographic scope",
+                  "Only employee count",
+                  "Only current profitability"
+                ],
+                correctIndex: 1,
+                explanation: "Strategic dimensions include innovation, scale, scope, vertical integration, geographic scope - factors that define how firms compete."
+              },
+              {
+                text: "Understanding strategic groups helps identify:",
+                options: [
+                  "Only total industry size",
+                  "Closest competitors (same group), threats from other groups, and opportunities to move between groups",
+                  "Only customer preferences",
+                  "Only supplier power"
+                ],
+                correctIndex: 1,
+                explanation: "Strategic groups help identify who your closest competitors are, potential threats from other groups, and strategic opportunities."
               }
             ]
           }
@@ -2044,10 +2334,65 @@
         levels: [
           {
             lessonTitle: "Level 1 – Value Stick and Generic Competitive Strategies",
-            lessonText: "The value stick represents the value created and how it is shared: from suppliers' opportunity cost (SOC) to cost, price and customers' willingness to pay (WTP). What matters for competitive advantage is the gap between WTP and SOC, and who captures which slice. Generic strategies focus on cost leadership, differentiation and focus.",
-            caseTitle: "Case: Cost Leadership vs Differentiation",
-            caseText: "A low-cost airline like Southwest lowers cost through a coherent activity system (no frills, standardized fleet, fast turnarounds) while keeping WTP acceptable. A company like Apple raises WTP through design, ecosystem and brand, accepting somewhat higher costs to pursue differentiation.",
+            lessonText: "The Value Stick visualizes value creation and distribution: SOC (Suppliers' Opportunity Cost) → Cost → Price → WTP (Willingness to Pay). The total value created is the gap between WTP and SOC. Competitive advantage comes from creating a larger gap than rivals and capturing a greater share. Cost Leadership strategy primarily lowers SOC/Cost while maintaining acceptable WTP, widening the firm's margin (Price - Cost). Differentiation strategy primarily raises WTP even if cost is slightly higher, increasing consumer surplus and allowing premium pricing. Both can create competitive advantage, but they require different activity systems and trade-offs. Porter warns strongly against being 'Stuck in the Middle' - trying to pursue both without clear positioning, resulting in no competitive advantage. However, hybrid strategies can work when: (1) separate business units pursue different strategies, or (2) major technological/managerial innovation shifts the efficiency frontier, allowing simultaneous cost reduction and differentiation.",
+            caseTitle: "Case: Cost Leadership vs Differentiation vs Hybrid",
+            caseText: "Southwest Airlines (Cost Leadership): Lowers cost through no frills, standardized fleet, fast turnarounds, while keeping WTP acceptable for price-sensitive travelers. Apple (Differentiation): Raises WTP through design, ecosystem, brand, accepting higher costs but commanding premium prices. IKEA (Hybrid): Through innovative flat-pack design and self-assembly, IKEA simultaneously lowered costs (efficient logistics, customer labor) and raised WTP (modern design, shopping experience) - a hybrid enabled by innovation that shifted the frontier.",
             questions: [
+              {
+                text: "The Value Stick shows the flow:",
+                options: [
+                  "WTP → Price → Cost → SOC",
+                  "SOC → Cost → Price → WTP",
+                  "Price → Cost → WTP → SOC",
+                  "Only WTP and Price matter"
+                ],
+                correctIndex: 1,
+                explanation: "The Value Stick flows from SOC (Suppliers' Opportunity Cost) to Cost to Price to WTP (Willingness to Pay), showing how value is created and distributed."
+              },
+              {
+                text: "Cost Leadership strategy primarily:",
+                options: [
+                  "Raises WTP while ignoring costs",
+                  "Lowers SOC/Cost while maintaining acceptable WTP, widening the firm's margin",
+                  "Only focuses on marketing",
+                  "Eliminates all suppliers"
+                ],
+                correctIndex: 1,
+                explanation: "Cost Leadership lowers cost (and often SOC) while keeping WTP acceptable, increasing the margin between Price and Cost."
+              },
+              {
+                text: "Differentiation strategy primarily:",
+                options: [
+                  "Only cuts costs",
+                  "Raises WTP even if cost is slightly higher, allowing premium pricing",
+                  "Ignores customer preferences",
+                  "Focuses only on operational efficiency"
+                ],
+                correctIndex: 1,
+                explanation: "Differentiation raises WTP through unique value (design, quality, brand, features), allowing higher prices even with higher costs."
+              },
+              {
+                text: "Porter's 'Stuck in the Middle' warning refers to:",
+                options: [
+                  "Firms that successfully pursue both cost leadership and differentiation",
+                  "Firms that try to pursue both strategies without clear positioning, resulting in no competitive advantage",
+                  "Firms with a clear focus strategy",
+                  "Firms that innovate the efficiency frontier"
+                ],
+                correctIndex: 1,
+                explanation: "Being 'stuck in the middle' means trying to be both low-cost and differentiated without clear positioning, typically resulting in inferior performance."
+              },
+              {
+                text: "Hybrid strategies (simultaneous cost reduction and differentiation) can work when:",
+                options: [
+                  "Always - there's no trade-off",
+                  "When separate business units pursue different strategies, or when major innovation shifts the efficiency frontier",
+                  "Never - Porter's warning is absolute",
+                  "Only for small firms"
+                ],
+                correctIndex: 1,
+                explanation: "Hybrid strategies can succeed when innovation shifts the frontier (e.g., IKEA's flat-pack) or when different business units pursue different strategies."
+              },
               {
                 text: "If a firm lowers its unit cost while keeping WTP and price roughly constant, which part of the value stick mainly changes?",
                 options: [
@@ -2058,26 +2403,59 @@
                 ],
                 correctIndex: 1,
                 explanation: "Lower cost at the same price increases the firm's margin between price and cost – a classic cost leadership move."
-              },
-              {
-                text: "Investing in brand, design and user experience to raise WTP faster than cost is most consistent with:",
-                options: [
-                  "Pure cost leadership",
-                  "Differentiation strategy",
-                  "No strategy – stuck in the middle by definition",
-                  "Only a short-term promotion"
-                ],
-                correctIndex: 1,
-                explanation: "Raising WTP based on uniqueness and perceived value is the logic of a differentiation strategy."
               }
             ]
           },
           {
-            lessonTitle: "Level 2 – RBV and VRIO Resources",
-            lessonText: "The Resource-based View (RBV) treats firms as heterogeneous bundles of resources and capabilities. If a resource is Valuable, Rare, costly to Imitate and the firm is Organized to capture value (VRIO), it can support a sustained competitive advantage.",
-            caseTitle: "Case: Data, Algorithms and Brands",
-            caseText: "Examples often discussed in class include recommendation algorithms trained on rich user data, strong brands, or company cultures that support innovation (like 3M's 15% time). These can be valuable and hard to imitate, especially when embedded in systems, routines and culture.",
+            lessonTitle: "Level 2 – VRIO Framework and Core Competences",
+            lessonText: "The Resource-based View (RBV) treats firms as heterogeneous bundles of resources and capabilities. The VRIO framework tests whether a resource can support sustained competitive advantage. V = Valuable (exploits opportunities, neutralizes threats), R = Rare (possessed by few competitors), I = Inimitable (costly to imitate due to path dependence, causal ambiguity, or social complexity), O = Organized (firm has structure, systems, processes, and culture to capture value). Only resources that pass ALL four tests (V+R+I+O) yield sustained competitive advantage. If V+R but not I, advantage is temporary (competitors will imitate). If V only, result is competitive parity. Resources are inimitable when they involve: path dependence (historical accumulation), causal ambiguity (unclear how they create value), or social complexity (culture, relationships). Core Competences are collective learning that integrates multiple technologies and production skills - they are not just any capability, but deeply embedded organizational knowledge that enables the firm to access diverse markets and create value across products.",
+            caseTitle: "Case: Netflix's Recommendation Algorithm and 3M's Innovation Culture",
+            caseText: "Netflix's recommendation algorithm is Valuable (improves user experience), Rare (few have similar scale of data), Inimitable (path-dependent - built over years with millions of users, causally ambiguous - exact combination of factors unclear), and Organized (Netflix's structure and culture support data-driven decisions). 3M's innovation culture (15% time, tolerance for failure) is a Core Competence - collective learning that integrates R&D, experimentation, and market sensing across diverse product lines, enabling 3M to innovate in multiple industries.",
             questions: [
+              {
+                text: "For a resource to yield sustained competitive advantage, it must be:",
+                options: [
+                  "Valuable only",
+                  "Valuable and Rare only",
+                  "Valuable, Rare, Inimitable, AND Organized (pass all four VRIO tests)",
+                  "Only Organized, regardless of value"
+                ],
+                correctIndex: 2,
+                explanation: "Only resources that pass ALL four VRIO tests yield sustained competitive advantage. Missing any test reduces the advantage."
+              },
+              {
+                text: "If a resource is Valuable and Rare but NOT Inimitable, it will likely lead to:",
+                options: [
+                  "Sustained competitive advantage",
+                  "Temporary competitive advantage (competitors will eventually imitate)",
+                  "Competitive parity",
+                  "Competitive disadvantage"
+                ],
+                correctIndex: 1,
+                explanation: "V+R without I means competitors can imitate, so the advantage is temporary, not sustained."
+              },
+              {
+                text: "Resources are inimitable when they involve:",
+                options: [
+                  "Only financial resources",
+                  "Path dependence, causal ambiguity, or social complexity",
+                  "Only tangible assets",
+                  "Only current market share"
+                ],
+                correctIndex: 1,
+                explanation: "Inimitability comes from path dependence (historical accumulation), causal ambiguity (unclear value creation), or social complexity (culture, relationships)."
+              },
+              {
+                text: "Core Competences are best defined as:",
+                options: [
+                  "Any capability the firm has",
+                  "Collective learning that integrates multiple technologies and production skills, enabling access to diverse markets",
+                  "Only financial resources",
+                  "Only current products"
+                ],
+                correctIndex: 1,
+                explanation: "Core Competences are deeply embedded organizational knowledge that integrates multiple skills and technologies, enabling value creation across diverse markets and products."
+              },
               {
                 text: "A resource that is Valuable but not Rare is most likely to lead to:",
                 options: [
@@ -2088,26 +2466,26 @@
                 ],
                 correctIndex: 2,
                 explanation: "If everyone has it, it may be necessary to compete but it will typically only lead to parity, not sustained advantage."
-              },
-              {
-                text: "Consider a recommendation algorithm trained on millions of users' viewing data over many years. Which VRIO attributes does it most plausibly have?",
-                options: [
-                  "V and R only (easy to imitate and no organization needed)",
-                  "V, R and I (hard to imitate), but it still needs the firm to be organized to exploit it",
-                  "Only O (organization) but no value",
-                  "No VRIO attributes at all"
-                ],
-                correctIndex: 1,
-                explanation: "Such an algorithm can be valuable, rare and costly to imitate. The firm still needs to be organized (structure, incentives, culture) to exploit it."
               }
             ]
           },
           {
             lessonTitle: "Level 3 – Dynamic Capabilities: Sensing, Seizing, Reconfiguring",
-            lessonText: "Static resources are not enough in a changing environment. Dynamic capabilities are the firm's abilities to sense opportunities and threats, seize them and reconfigure resources and activities over time.",
+            lessonText: "Static resources are not enough in a changing environment. Dynamic Capabilities are the firm's abilities to sense opportunities and threats, seize them, and reconfigure resources and activities over time. The model has three components: (1) Sensing - systematically scanning and interpreting weak signals in the environment (new technologies, changing customer habits, regulatory shifts), (2) Seizing - committing resources and making investments to capture opportunities identified through sensing, (3) Reconfiguring - transforming the asset base, activity system, and organizational structure to align with new strategic directions. These capabilities are themselves VRIO resources - they are valuable, rare, and hard to imitate because they involve organizational learning and routines built over time.",
             caseTitle: "Case: Netflix vs Blockbuster",
-            caseText: "Netflix sensed the shift towards broadband and on-demand viewing, seized the opportunity by investing in streaming, and reconfigured its business away from DVDs. Blockbuster was slower to react and remained tied to its existing store-based model, despite early signals.",
+            caseText: "Netflix demonstrated strong dynamic capabilities: Sensing - identified the shift towards broadband and on-demand viewing early, Seizing - invested heavily in streaming infrastructure and content, Reconfiguring - transformed from DVD-by-mail to streaming platform, then to original content producer. Blockbuster had weaker dynamic capabilities: slower to sense the shift, hesitant to seize (rejected acquisition of Netflix), and failed to reconfigure away from store-based model. This difference in dynamic capabilities explains why Netflix thrived while Blockbuster declined.",
             questions: [
+              {
+                text: "The three components of Dynamic Capabilities are:",
+                options: [
+                  "Buy, Build, and Outsource",
+                  "Sensing, Seizing, and Reconfiguring",
+                  "Valuable, Rare, and Inimitable",
+                  "Cost, Price, and WTP"
+                ],
+                correctIndex: 1,
+                explanation: "Dynamic Capabilities consist of Sensing (identifying opportunities/threats), Seizing (committing resources), and Reconfiguring (transforming assets and activities)."
+              },
               {
                 text: "When a firm systematically scans for weak signals (e.g. new technologies, changing customer habits), this mainly relates to which dynamic capability?",
                 options: [
@@ -2117,7 +2495,7 @@
                   "None – this is just accounting"
                 ],
                 correctIndex: 0,
-                explanation: "Sensing is about identifying and interpreting opportunities and threats in the environment."
+                explanation: "Sensing is about identifying and interpreting opportunities and threats in the environment through systematic scanning."
               },
               {
                 text: "In the Netflix example, closing most DVD operations and reorganizing around streaming infrastructure is mainly an example of:",
@@ -2129,6 +2507,143 @@
                 ],
                 correctIndex: 2,
                 explanation: "Reconfiguring is about changing the asset base and activity system to align with the new strategy (here, streaming)."
+              },
+              {
+                text: "Dynamic Capabilities themselves can be:",
+                options: [
+                  "Only tangible resources",
+                  "VRIO resources - valuable, rare, and hard to imitate because they involve organizational learning",
+                  "Easily copied from competitors",
+                  "Only financial assets"
+                ],
+                correctIndex: 1,
+                explanation: "Dynamic Capabilities are themselves strategic resources that can be VRIO - they involve organizational learning, routines, and culture that are hard to imitate."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 4 – Developing Resources & Capabilities: Buy vs Build",
+            lessonText: "Firms can develop resources and capabilities through two main paths: Buy (acquiring on Strategic Factor Markets) or Build (internal development through Asset Stock Accumulation). Buy involves acquiring resources on markets where they are traded. Key considerations: Superior expectations about future value (if you value a resource more than others, you can acquire it below its true value), but risk of Winner's Curse (overpaying if you overestimate value). Build involves internal development over time. Key mechanisms: Time compression diseconomies (rushing development is costly - some capabilities take time), Asset mass efficiencies (existing stocks make further accumulation easier), Interconnectedness (capabilities are linked - building one helps build others). The choice depends on: urgency, imitability of what you need, whether markets exist, and whether the capability requires firm-specific learning.",
+            caseTitle: "Case: Google's AI Capabilities and Tesla's Battery Development",
+            caseText: "Google (Build): Developed AI capabilities internally over years - DeepMind acquisition was strategic, but core AI talent and culture were built through time compression (patient investment), asset mass (existing data and infrastructure), and interconnectedness (AI linked to search, cloud, hardware). Tesla (Hybrid): Initially bought battery technology and suppliers, but then built internal Gigafactory capabilities - the manufacturing know-how and scale required firm-specific learning that couldn't be fully bought. The choice reflected urgency (needed batteries quickly) vs long-term capability building (manufacturing excellence).",
+            questions: [
+              {
+                text: "The two main paths to develop resources and capabilities are:",
+                options: [
+                  "Only buying from competitors",
+                  "Buy (acquiring on Strategic Factor Markets) and Build (internal development through Asset Stock Accumulation)",
+                  "Only building internally",
+                  "Only outsourcing"
+                ],
+                correctIndex: 1,
+                explanation: "Firms can Buy (acquire resources on markets) or Build (develop internally through accumulation over time)."
+              },
+              {
+                text: "A key risk of Buying resources on Strategic Factor Markets is:",
+                options: [
+                  "Winner's Curse - overpaying if you overestimate the resource's value",
+                  "That resources are always free",
+                  "That you can never buy valuable resources",
+                  "That buying is always cheaper than building"
+                ],
+                correctIndex: 0,
+                explanation: "Winner's Curse occurs when you overestimate a resource's value and overpay for it, especially in competitive auctions."
+              },
+              {
+                text: "Time compression diseconomies in Building capabilities means:",
+                options: [
+                  "Rushing development is always free",
+                  "Rushing capability development is costly - some capabilities require time to develop properly",
+                  "All capabilities can be built instantly",
+                  "Time doesn't matter for capability building"
+                ],
+                correctIndex: 1,
+                explanation: "Time compression diseconomies mean that trying to rush capability development is expensive - some organizational learning and routines take time to develop."
+              },
+              {
+                text: "Asset mass efficiencies refer to:",
+                options: [
+                  "That existing capability stocks make further accumulation easier and more efficient",
+                  "That you must start from zero every time",
+                  "That capabilities are independent and unrelated",
+                  "That building capabilities gets harder over time"
+                ],
+                correctIndex: 0,
+                explanation: "Asset mass efficiencies mean that having existing stocks of a capability (e.g., R&D experience, data) makes it easier and more efficient to build more of that capability."
+              },
+              {
+                text: "A firm should choose Build over Buy when:",
+                options: [
+                  "The capability is always available on markets at low cost",
+                  "The capability requires firm-specific learning, interconnectedness with existing capabilities, or markets don't exist",
+                  "There's extreme urgency and no time to build",
+                  "The capability is completely generic and unrelated to the firm"
+                ],
+                correctIndex: 1,
+                explanation: "Build makes sense when capabilities require firm-specific learning, are interconnected with existing capabilities, or when markets for those capabilities don't exist or are inefficient."
+              }
+            ]
+          },
+          {
+            lessonTitle: "Level 5 – Value Chain Analysis: Industry vs Company",
+            lessonText: "Value Chain Analysis distinguishes between Industry Value Chain and Company Value Chain. Industry Value Chain maps the sequence of activities from raw materials to end customers across the entire industry (e.g., mining → refining → manufacturing → distribution → retail → customers). It's used to: (1) Analyze profit pools - where value and profits are captured in the chain, (2) Decide on vertical integration - should we own more links?, (3) Identify opportunities to bypass links or create new ones. Company Value Chain identifies a firm's internal activities: Primary activities (inbound logistics, operations, outbound logistics, marketing & sales, service) and Support activities (procurement, technology, HR, firm infrastructure). It's used to: (1) Identify core activities that should NOT be outsourced (strategic, VRIO resources), (2) Identify support activities that can be outsourced, (3) Understand cost drivers and value creation. Core activities are those that are strategic, hard to imitate, and central to competitive advantage - these should typically be kept in-house.",
+            caseTitle: "Case: Tesla's Value Chain Decisions",
+            caseText: "Industry Value Chain (EVs): Battery materials → Battery cells → Battery packs → Vehicle assembly → Sales & Service → Customers. Tesla analyzed profit pools and decided to vertically integrate into battery production (Gigafactories) to capture more value and reduce dependence. Company Value Chain: Tesla's core activities include battery technology (VRIO - valuable, rare, inimitable), vehicle design, and software/AI (autopilot). These are core and kept in-house. Support activities like some manufacturing components can be outsourced. Tesla's vertical integration decision was based on industry value chain analysis (profit pools, control) and company value chain analysis (core vs support activities).",
+            questions: [
+              {
+                text: "Industry Value Chain is used to:",
+                options: [
+                  "Only analyze a single firm's internal activities",
+                  "Map activities across the entire industry (raw materials to customers), analyze profit pools, and decide on vertical integration",
+                  "Only analyze customer preferences",
+                  "Only analyze competitors"
+                ],
+                correctIndex: 1,
+                explanation: "Industry Value Chain maps the full sequence of activities across the industry and helps analyze profit pools and vertical integration decisions."
+              },
+              {
+                text: "Company Value Chain distinguishes:",
+                options: [
+                  "Only between suppliers and customers",
+                  "Primary activities (operations, sales) and Support activities (HR, IT), helping identify core vs outsourcable activities",
+                  "Only between products and services",
+                  "Only between online and offline"
+                ],
+                correctIndex: 1,
+                explanation: "Company Value Chain identifies primary and support activities, helping determine which are core (strategic, VRIO) vs support (potentially outsourcable)."
+              },
+              {
+                text: "Core activities in a company value chain should typically:",
+                options: [
+                  "Always be outsourced",
+                  "Be kept in-house if they are strategic, VRIO resources, or central to competitive advantage",
+                  "Never be strategic",
+                  "Only include support functions"
+                ],
+                correctIndex: 1,
+                explanation: "Core activities are strategic, VRIO resources, or central to advantage - these should typically be kept in-house, not outsourced."
+              },
+              {
+                text: "Industry Value Chain analysis helps decide on vertical integration by:",
+                options: [
+                  "Only analyzing current costs",
+                  "Identifying profit pools, understanding where value is captured, and evaluating whether owning more links creates advantage",
+                  "Only looking at competitors",
+                  "Ignoring the value chain structure"
+                ],
+                correctIndex: 1,
+                explanation: "Industry value chain analysis identifies profit pools and value capture, helping evaluate whether vertical integration (owning more links) creates competitive advantage."
+              },
+              {
+                text: "If a company activity is a VRIO resource central to competitive advantage, it should:",
+                options: [
+                  "Always be outsourced",
+                  "Typically be kept in-house as a core activity",
+                  "Only be analyzed for cost",
+                  "Be ignored in strategy"
+                ],
+                correctIndex: 1,
+                explanation: "VRIO resources that are central to advantage are core activities that should typically be kept in-house, not outsourced."
               }
             ]
           }
@@ -2140,92 +2655,157 @@
         levels: [
           {
             lessonTitle: "Level 1 – Platform Business Model vs Pipeline",
-            lessonText: "In the course, platform businesses are defined as models that enable direct interactions between affiliated customers (Hagiu & Wright). Instead of just owning assets and selling products (pipeline), platforms orchestrate external resources and interactions between user groups.",
-            caseTitle: "Case: Glovo as a Multi-sided Platform",
-            caseText: "Glovo connects customers who place orders, businesses (restaurants, shops, pharmacies) that supply products, and couriers who deliver them. The platform does not own all the inventory; it facilitates interactions and takes a cut.",
+            lessonText: "Platform Business Model (Hagiu & Wright definition): Enables direct interactions between affiliated customers on the platform. The platform orchestrates external resources and facilitates interactions between user groups (buyers, sellers, complementors). Pipeline / Linear Business Model: Uses internal resources to produce and sell products/services to customers. There are no direct interactions between customers - the firm controls the value chain from production to sale. Key distinction: Platforms enable customer-to-customer interactions; pipelines control internal production and sell to customers. Many firms combine both - e.g., Amazon has pipeline (retail) and platform (marketplace) businesses. Understanding this distinction is crucial for strategy because platforms and pipelines have different economics, competitive dynamics, and strategic levers.",
+            caseTitle: "Case: Glovo (Platform) vs Traditional Restaurant (Pipeline)",
+            caseText: "Glovo (Platform): Enables direct interactions between customers (who order), merchants (restaurants/shops that supply), and couriers (who deliver). Glovo doesn't own restaurants or inventory - it facilitates interactions and takes a commission. Traditional Restaurant (Pipeline): Uses internal resources (kitchen, staff, ingredients) to produce meals and sell directly to customers. No customer-to-customer interactions - the restaurant controls production and sales. The restaurant's value comes from its internal capabilities (cooking, service), while Glovo's value comes from orchestrating the ecosystem.",
             questions: [
               {
-                text: "According to the platform definition discussed in class, platforms primarily:",
+                text: "A Platform Business Model is best defined as:",
                 options: [
-                  "Own all the physical assets and produce everything internally",
-                  "Enable direct interactions between different types of affiliated customers on the platform",
-                  "Eliminate all intermediaries from markets",
-                  "Are just another word for a website"
+                  "A model that uses only internal resources to produce and sell",
+                  "A model that enables direct interactions between affiliated customers on the platform",
+                  "Only a website or app",
+                  "A model that eliminates all intermediaries"
                 ],
                 correctIndex: 1,
-                explanation: "The key idea is enabling direct interactions between affiliated customers (e.g. buyers, sellers, complementors) on the platform."
+                explanation: "Platforms enable direct interactions between different types of affiliated customers (buyers, sellers, complementors) on the platform."
               },
               {
-                text: "Glovo is best described as connecting which main groups on the platform?",
+                text: "A Pipeline / Linear Business Model:",
                 options: [
-                  "Only Glovo employees and shareholders",
-                  "Customers, merchants (restaurants/shops) and couriers",
-                  "Only restaurants and big supermarkets",
-                  "Only regulators and investors"
+                  "Enables direct customer-to-customer interactions",
+                  "Uses internal resources to produce and sell to customers, with no direct interactions between customers",
+                  "Only exists online",
+                  "Is the same as a platform"
                 ],
                 correctIndex: 1,
-                explanation: "Glovo operates a multi-sided marketplace between customers, merchants and couriers."
+                explanation: "Pipeline businesses use internal resources to produce and sell - customers don't interact with each other, only with the firm."
+              },
+              {
+                text: "Glovo is best described as:",
+                options: [
+                  "A pure pipeline business (owns all restaurants and couriers)",
+                  "A platform that connects customers, merchants (restaurants/shops), and couriers, facilitating interactions",
+                  "Only a delivery service with no platform elements",
+                  "Only a technology company"
+                ],
+                correctIndex: 1,
+                explanation: "Glovo is a platform - it facilitates direct interactions between customers, merchants, and couriers without owning all the assets."
+              },
+              {
+                text: "The key distinction between platforms and pipelines is:",
+                options: [
+                  "Platforms are always online, pipelines are offline",
+                  "Platforms enable customer-to-customer interactions; pipelines control internal production and sell to customers",
+                  "There is no difference",
+                  "Only the size of the company"
+                ],
+                correctIndex: 1,
+                explanation: "Platforms enable interactions between customers; pipelines control production internally and sell to customers."
               }
             ]
           },
           {
-            lessonTitle: "Level 2 – Network Effects and Tipping Points",
-            lessonText: "Demand-side network effects occur when the utility (and WTP) a user derives from a product increases with the number of other users. Direct network effects are within the same side (e.g. messaging apps), while cross-side effects link different sides (e.g. more restaurants make the platform more valuable to customers).",
-            caseTitle: "Case: Messaging Apps and Food Delivery Platforms",
-            caseText: "A messaging app becomes more valuable when more of your friends use it (direct network effects). A food delivery platform like Glovo becomes more attractive to customers when more restaurants join, and more attractive to restaurants when more customers and couriers are active (cross-side network effects).",
+            lessonTitle: "Level 2 – Network Effects: Direct vs Cross-side, and Tipping Points",
+            lessonText: "Network Effects occur when the utility (and WTP) a user derives from a product increases with the number of other users. Direct (same-side) network effects: within the same user group (e.g., messaging apps - more friends using it increases value). Indirect / Cross-side network effects: between different user groups (e.g., more restaurants make platform more valuable to customers, more customers make it more valuable to restaurants). Winner-Take-All (WTA) dynamics: When network effects are strong and users coordinate on expectations, markets can exhibit tipping points. Beyond the tipping point, one platform can dominate, locking in users and locking out weaker rivals. Tipping points occur when network effects create self-reinforcing feedback loops that push one platform ahead very quickly.",
+            caseTitle: "Case: Messaging Apps, Food Delivery, and Social Networks",
+            caseText: "Messaging Apps (Direct): More friends using WhatsApp increases your utility - direct network effect on the same side. Food Delivery (Cross-side): More restaurants on Glovo increases value for customers; more customers increases value for restaurants - cross-side network effects. Social Networks (WTA): Facebook reached a tipping point where network effects created a winner-take-all dynamic - most people joined because others were there, making it very hard for new competitors to gain critical mass.",
             questions: [
               {
-                text: "When a messaging app is more useful because many of your friends are already on it, this is an example of:",
+                text: "Direct (same-side) network effects occur:",
                 options: [
-                  "A supply-side economy of scale only",
-                  "A direct (same-side) network effect",
-                  "A cross-side network effect between two different user groups",
-                  "No network effect at all"
+                  "Between different user groups (e.g., restaurants and customers)",
+                  "Within the same user group (e.g., more friends using a messaging app increases your utility)",
+                  "Only in pipeline businesses",
+                  "Only for suppliers"
                 ],
                 correctIndex: 1,
-                explanation: "This is a direct (same-side) network effect: more users on the same side increase the utility for each user."
+                explanation: "Direct network effects are within the same side - more users in your group increase the value for each user."
               },
               {
-                text: "When more restaurants join a delivery platform and this increases the platform's value for customers, we are mainly seeing:",
+                text: "Cross-side (indirect) network effects occur:",
                 options: [
+                  "Only within the same user group",
+                  "Between different user groups (e.g., more restaurants increase value for customers)",
+                  "Only in pipeline businesses",
+                  "Never in platform businesses"
+                ],
+                correctIndex: 1,
+                explanation: "Cross-side effects link different user groups - more users on one side increase value for users on another side."
+              },
+              {
+                text: "Winner-Take-All (WTA) dynamics in platforms refer to:",
+                options: [
+                  "All platforms always share the market equally",
+                  "When strong network effects and tipping points allow one platform to dominate and lock out rivals",
+                  "Only financial markets",
+                  "Only pipeline businesses"
+                ],
+                correctIndex: 1,
+                explanation: "WTA occurs when network effects create tipping points where one platform dominates and competitors struggle to gain critical mass."
+              },
+              {
+                text: "A tipping point in platform markets is:",
+                options: [
+                  "The exact moment costs equal revenues",
+                  "The user base level after which network effects push one platform ahead very quickly through self-reinforcing feedback",
+                  "Only when regulation changes",
+                  "The day a company launches"
+                ],
+                correctIndex: 1,
+                explanation: "Tipping points occur when network effects create self-reinforcing loops that rapidly push one platform ahead of competitors."
+              },
+              {
+                text: "When more restaurants join a delivery platform and this increases the platform's value for customers, we are seeing:",
+                options: [
+                  "A direct network effect on the restaurant side",
                   "A cross-side network effect from restaurants to customers",
-                  "A direct network effect on the courier side only",
-                  "Only cost reductions, no network effects",
+                  "Only cost reductions",
                   "A pure macro PESTEL effect"
                 ],
-                correctIndex: 0,
-                explanation: "More restaurants make the platform more valuable to customers – a cross-side network effect."
-              },
-              {
-                text: "A ride-hailing platform dominates a region due to strong network effects, proprietary routing algorithms, and exclusive airport partnerships. A new competitor enters with better prices and a more fuel-efficient fleet but struggles to reach critical mass. The incumbent raises commissions, drivers start leaving, and riders complain about longer wait times. From a Resource-Based View combined with platform economics, what represents the largest long-term threat to the incumbent's competitive advantage?",
-                options: [
-                  "Competitors' access to cheaper vehicle technology.",
-                  "Loss of direct control over customer payment data.",
-                  "Weakening of cross-side network effects due to driver attrition.",
-                  "Failure to differentiate in-app user interface features.",
-                  "Declining airport partnership revenues."
-                ],
-                correctIndex: 2,
-                explanation: "The core advantage of ride-hailing platforms is demand-side network effects, not vehicles, prices, or UI. If drivers leave, wait times increase, riders leave, rides drop, and even more drivers leave. This unraveling of cross-side network effects is a much more serious long-term threat than hardware, price, or interface issues."
+                correctIndex: 1,
+                explanation: "More restaurants (one side) make the platform more valuable to customers (another side) - a cross-side network effect."
               }
             ]
           },
           {
-            lessonTitle: "Level 3 – Winner-take-all Dynamics",
-            lessonText: "When network effects are strong and users coordinate on expectations, markets can exhibit tipping points. Beyond the tipping point, one platform can move towards winner-take-all (WTA), locking in users and locking out weaker rivals.",
-            caseTitle: "Case: Ride-hailing and Social Networks",
-            caseText: "Ride-hailing apps and social networks often see strong feedback loops: more users attract more drivers or content, which attracts even more users. If one platform gets far ahead, it may become very hard for smaller competitors to catch up.",
+            lessonTitle: "Level 3 – Platform Competition: Three Modes",
+            lessonText: "Platform competition occurs in three distinct modes: (1) Platform vs Platform - direct competition between rival platforms (e.g., Uber vs Lyft, iOS vs Android). Success depends on network effects, quality, pricing, and ecosystem strength. (2) Platform vs Complement - co-opetition where platforms compete with their own complementors (e.g., Amazon Marketplace vs Amazon Retail, Apple App Store vs Apple's own apps). Platforms must balance attracting complements while sometimes competing with them. (3) Complement vs Complement - competition among complements on the same platform (e.g., different apps on iOS, different restaurants on Glovo). Platform sets rules, but complements compete for users. Understanding these modes helps analyze competitive dynamics and strategic choices in platform ecosystems.",
+            caseTitle: "Case: Apple's Platform Competition",
+            caseText: "Platform vs Platform: iOS competes with Android for users and developers. Platform vs Complement: Apple competes with app developers (e.g., Apple Music vs Spotify, Apple Maps vs Google Maps) while also providing the platform. Complement vs Complement: Thousands of apps compete for users on the App Store, with Apple setting rules and taking a commission. Apple must balance these modes - competing with complements can reduce trust, but may be necessary for strategic control.",
             questions: [
               {
-                text: "In a market with strong network effects, a 'tipping point' refers to:",
+                text: "The three modes of platform competition are:",
                 options: [
-                  "The exact moment when costs equal revenues",
-                  "The user base level after which expectations and network effects push one platform ahead very quickly",
-                  "The day the company launches its first app",
-                  "Only the point where regulation changes"
+                  "Only Platform vs Platform",
+                  "Platform vs Platform, Platform vs Complement, and Complement vs Complement",
+                  "Only Complement vs Complement",
+                  "Only financial competition"
                 ],
                 correctIndex: 1,
-                explanation: "The tipping point is where expectations and network effects reinforce each other and the strong can get stronger."
+                explanation: "Three modes: (1) Platform vs Platform (direct competition), (2) Platform vs Complement (co-opetition), (3) Complement vs Complement (competition among complements)."
+              },
+              {
+                text: "Platform vs Complement competition refers to:",
+                options: [
+                  "Only competition between two different platforms",
+                  "Co-opetition where platforms compete with their own complementors (e.g., Amazon Marketplace vs Amazon Retail)",
+                  "Only competition among complements",
+                  "Only supplier competition"
+                ],
+                correctIndex: 1,
+                explanation: "Platform vs Complement is co-opetition - the platform competes with its own complements while also providing the platform for them."
+              },
+              {
+                text: "Complement vs Complement competition occurs when:",
+                options: [
+                  "Two platforms compete directly",
+                  "Complements on the same platform compete for users (e.g., different apps on iOS)",
+                  "Platforms compete with their own complements",
+                  "Only platforms compete with suppliers"
+                ],
+                correctIndex: 1,
+                explanation: "Complement vs Complement is competition among complements on the same platform, with the platform setting rules."
               },
               {
                 text: "In a winner-take-all platform market, a key strategic risk for a smaller rival is:",
