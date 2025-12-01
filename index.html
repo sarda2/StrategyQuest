@@ -1222,6 +1222,262 @@
       .glossary-grid {
         grid-template-columns: 1fr;
       }
+
+      /* Session Cards Mobile */
+      .session-card {
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        margin-bottom: 0.75rem;
+      }
+
+      .session-card h3 {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .session-main {
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      .session-link {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+      }
+
+      /* Session Intro Card Mobile */
+      #sessionIntroCard {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      #sessionIntroTitle {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      #sessionIntroText {
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      /* Cards Mobile */
+      .card {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      /* Course Map Cards Mobile */
+      .course-map-card {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .course-map-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      /* Header Mobile Improvements */
+      .header-left {
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+      }
+
+      .header-left > div:first-child {
+        font-size: 0.95rem;
+      }
+
+      .score {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      .score-item {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.85rem;
+        min-height: 44px;
+      }
+
+      .score-item strong {
+        font-size: 1rem;
+      }
+
+      /* Module View Mobile */
+      .module-view-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .module-view-header > div:last-child {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .question {
+        font-size: 1.1rem;
+        margin: 1rem 0;
+      }
+
+      .options button {
+        width: 100%;
+        text-align: left;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        padding: 1rem 1.25rem;
+      }
+
+      /* Home Hero Mobile */
+      .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .cta-buttons button {
+        width: 100%;
+        margin-bottom: 0.75rem;
+      }
+
+      /* Feature Grid Mobile */
+      .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .feature-card {
+        padding: 1.25rem;
+      }
+
+      /* Tile Grid Mobile */
+      .tile {
+        padding: 1.5rem;
+      }
+
+      .tile h3 {
+        font-size: 1.1rem;
+      }
+
+      /* Quiz Card Mobile */
+      .quiz-card {
+        padding: 1.25rem;
+      }
+
+      .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .question-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+      }
+
+      .question-number {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.75rem;
+      }
+
+      /* Framework Recap Mobile */
+      #frameworkRecap {
+        padding: 1.25rem;
+      }
+
+      #frameworkRecap h3 {
+        font-size: 1.1rem;
+      }
+
+      /* Text Overflow Handling */
+      p {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* Button Mobile */
+      button {
+        min-height: 44px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+      }
+
+      /* Prevent horizontal scroll */
+      body {
+        overflow-x: hidden;
+      }
+
+      /* Module Progress Mobile */
+      .module-completion {
+        margin-top: 1rem;
+      }
+
+      .completion-bar {
+        height: 8px;
+      }
+    }
+
+    /* Extra Small Devices */
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.75rem;
+      }
+
+      header {
+        padding: 0.75rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.1rem;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+
+      .session-card {
+        padding: 0.875rem 1rem;
+      }
+
+      .session-card h3 {
+        font-size: 0.9rem;
+      }
+
+      .session-main {
+        font-size: 0.8rem;
+      }
+
+      .question {
+        font-size: 1rem;
+      }
+
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.875rem 1rem;
+      }
+
+      nav button {
+        font-size: 0.8rem;
+        padding: 0.625rem 0.875rem;
+      }
+
+      .header-left > div:first-child {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -1471,7 +1727,7 @@
       <div class="session-card" onclick="openSession('session2')">
         <h3>Session 2 – Industry Analysis & Competitive Dynamics</h3>
         <p class="session-main">
-          Porter's 5 Forces, complements, profit pool, strategic groups, mobility barriers, Key Success Factors (KSFs).
+          Porter's 5 Forces, complements, profit pool, mobility barriers, industry Life Cycle analysis, Competitive Dynamics (Strategic Groups and KSFs)
         </p>
         <p class="session-link">
           ▶ Start with <strong>Industry Battles – Level 1</strong>
@@ -1772,12 +2028,12 @@
     <!-- ACTIVE MODULE VIEW -->
     <section id="moduleView">
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div class="module-view-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
           <div>
             <h2 id="moduleTitle" style="margin: 0;">Module</h2>
             <div class="progress" id="moduleProgress"></div>
           </div>
-          <div style="display: flex; gap: 1rem; align-items: center;">
+          <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
             <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); cursor: pointer;">
               <input type="checkbox" id="examModeToggle" onchange="toggleExamMode()" style="width: 18px; height: 18px; cursor: pointer;">
               <span style="font-weight: 600; font-size: 0.95rem;">🎯 Exam Mode</span>
@@ -2208,12 +2464,12 @@
         ]
       },
       industry: {
-        title: "Industry Battles – Porter's 5 Forces",
+        title: "Industry Battles – Porter's 5 Forces, Life Cycle Analysis, Competitive Dynamics",
         badgeName: "Industry Analyst",
         levels: [
           {
             lessonTitle: "Level 1 – Airlines",
-            lessonText: "Industry analysis with Porter's 5 Forces focuses on rivalry, threat of entry, substitutes and complements, buyer power and supplier power. Airlines in many markets face intense rivalry, powerful buyers who can compare prices easily, and high fixed costs.",
+            lessonText: "Firms define their battle strategy by establishing a competitive advantage (CA) and aligning their activities: <br> 1. Competitive Advantage (CA): CA is defined as a company’s added value, specifically its value creation relative to the next best alternative. Mathematically, it is defined as the gap between Customers’ Willingness to Pay (WTP) and Total Suppliers’ Opportunity Costs (SOC), relative to the rival.<br> 2. Strategic Dimensions: These describe what lies behind competitive advantage (e.g., innovation, economies of scale, product design). Using strategic dimensions increases strategic clarity compared to merely listing the three generic strategies.<br> 3. Strategic Groups: These are clusters of companies that compete most closely against each other because they follow similar strategies, use the same key strategic dimensions, and target the same customer types. Rivalry is strongest within the same strategic group.<br> 4. Mobility Barriers: Strategic dimensions that are difficult to imitate create mobility barriers—barriers to entry into the strategic group.<br> 5. Key Success Factors (KSFs): These are the most critical determinants of competitive advantage for a firm to succeed in its group. KSFs arise from the combination of demand-side expectations and supply-side constraints within an industry. <br> 6. Mobility Barriers: Strategic dimensions that are difficult to imitate create mobility barriers—barriers to entry into the strategic group. <br>7. Key Success Factors (KSFs): These are the most critical determinants of competitive advantage for a firm to succeed in its group. KSFs arise from the combination of demand-side expectations and supply-side constraints within an industry.",
             caseTitle: "Case: Southwest Airlines",
             caseText: "Southwest built a low-cost model with point-to-point routes, secondary airports and a single aircraft type. By removing meals, seat assignments and many frills, it simplified operations and kept costs far below traditional airlines.",
             questions: [
