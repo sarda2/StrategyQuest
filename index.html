@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
   <title>Strategy Quest – Competitive Strategy Game</title>
@@ -1401,6 +1401,20 @@
         overflow-wrap: break-word;
       }
 
+      #lessonText {
+        line-height: 1.7;
+        font-size: 0.95rem;
+      }
+
+      #caseText {
+        line-height: 1.7;
+        font-size: 0.95rem;
+      }
+
+      #sessionIntroText {
+        line-height: 1.7;
+      }
+
       /* Button Mobile */
       button {
         min-height: 44px;
@@ -1477,6 +1491,47 @@
 
       .header-left > div:first-child {
         font-size: 0.85rem;
+      }
+
+      /* Long text with <br> tags */
+      #lessonText br {
+        display: block;
+        margin: 0.5rem 0;
+      }
+
+      /* Better spacing for mobile */
+      .home-section {
+        padding: 1.5rem 0;
+      }
+
+      .home-section h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Scoreboard mobile */
+      .scoreboard-item {
+        padding: 1rem;
+      }
+
+      /* Glossary cards mobile */
+      .flip-card {
+        min-height: 120px;
+      }
+    }
+
+    /* Landscape orientation on mobile */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .home-hero {
+        padding: 1.5rem;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+
+      .session-card {
+        padding: 0.875rem 1rem;
       }
     }
   </style>
@@ -2469,7 +2524,7 @@
         levels: [
           {
             lessonTitle: "Level 1 – Airlines",
-            lessonText: "Firms define their battle strategy by establishing a competitive advantage (CA) and aligning their activities: <br> 1. Competitive Advantage (CA): CA is defined as a company’s added value, specifically its value creation relative to the next best alternative. Mathematically, it is defined as the gap between Customers’ Willingness to Pay (WTP) and Total Suppliers’ Opportunity Costs (SOC), relative to the rival.<br> 2. Strategic Dimensions: These describe what lies behind competitive advantage (e.g., innovation, economies of scale, product design). Using strategic dimensions increases strategic clarity compared to merely listing the three generic strategies.<br> 3. Strategic Groups: These are clusters of companies that compete most closely against each other because they follow similar strategies, use the same key strategic dimensions, and target the same customer types. Rivalry is strongest within the same strategic group.<br> 4. Mobility Barriers: Strategic dimensions that are difficult to imitate create mobility barriers—barriers to entry into the strategic group.<br> 5. Key Success Factors (KSFs): These are the most critical determinants of competitive advantage for a firm to succeed in its group. KSFs arise from the combination of demand-side expectations and supply-side constraints within an industry. <br> 6. Mobility Barriers: Strategic dimensions that are difficult to imitate create mobility barriers—barriers to entry into the strategic group. <br>7. Key Success Factors (KSFs): These are the most critical determinants of competitive advantage for a firm to succeed in its group. KSFs arise from the combination of demand-side expectations and supply-side constraints within an industry.",
+            lessonText: "Firms define their battle strategy by establishing a competitive advantage (CA) and aligning their activities:\n\n1. Competitive Advantage (CA): CA is defined as a company's added value, specifically its value creation relative to the next best alternative. Mathematically, it is defined as the gap between Customers' Willingness to Pay (WTP) and Total Suppliers' Opportunity Costs (SOC), relative to the rival.\n\n2. Strategic Dimensions: These describe what lies behind competitive advantage (e.g., innovation, economies of scale, product design). Using strategic dimensions increases strategic clarity compared to merely listing the three generic strategies.\n\n3. Strategic Groups: These are clusters of companies that compete most closely against each other because they follow similar strategies, use the same key strategic dimensions, and target the same customer types. Rivalry is strongest within the same strategic group.\n\n4. Mobility Barriers: Strategic dimensions that are difficult to imitate create mobility barriers—barriers to entry into the strategic group.\n\n5. Key Success Factors (KSFs): These are the most critical determinants of competitive advantage for a firm to succeed in its group. KSFs arise from the combination of demand-side expectations and supply-side constraints within an industry.",
             caseTitle: "Case: Southwest Airlines",
             caseText: "Southwest built a low-cost model with point-to-point routes, secondary airports and a single aircraft type. By removing meals, seat assignments and many frills, it simplified operations and kept costs far below traditional airlines.",
             questions: [
