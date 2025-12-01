@@ -448,7 +448,7 @@
     /* Session Intro Card */
     #sessionIntroCard {
       border-left: 4px solid #a855f7;
-      background: rgba(76, 29, 149, 0.12);
+      background: var(--bg-card);
     }
 
     #sessionIntroTitle {
@@ -464,17 +464,18 @@
     .session-card {
       padding: 1.25rem 1.5rem;
       border-radius: 16px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.08);
       margin-bottom: 1rem;
       cursor: pointer;
       transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      box-shadow: var(--shadow);
     }
 
     .session-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 24px rgba(129, 140, 248, 0.55);
-      border-color: #818cf8;
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent);
     }
 
     .session-card h3 {
@@ -1455,7 +1456,7 @@
         <p class="session-link">
           ▶ Start with <strong>Strategy Fundamentals – Level 1</strong>
         </p>
-      </div>
+        </div>
 
       <div class="session-card" onclick="openSession('session1')">
         <h3>Session 1 – What is Strategy? Value Creation & Generic Strategies</h3>
